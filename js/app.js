@@ -1048,6 +1048,14 @@ async function applyFilters() {
 
     // Query text match
     if (query) {
+      // Smart intent matching for category keywords
+      if (['series', 'tv series', 'tv shows', 'shows', 'tv show', 'web series', 'serial'].includes(query)) {
+        return m.type === 'tv';
+      }
+      if (['movie', 'movies', 'cinema', 'films', 'film', 'picture'].includes(query)) {
+        return m.type === 'movie';
+      }
+
       const matchText = m.title.toLowerCase().includes(query) ||
         m.genres.some(g => g.toLowerCase().includes(query)) ||
         m.cast.some(c => c.toLowerCase().includes(query)) ||
