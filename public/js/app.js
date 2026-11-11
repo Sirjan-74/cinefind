@@ -1477,6 +1477,20 @@ function openDashboard() {
   `).join('') || '<p style="color: #94a3b8;">No recent stream events.</p>';
   recentClicksList.innerHTML = eventRows;
 
+  // Subscribers
+  const subs = getSubscribers();
+  const subCount = document.getElementById('subscriberCount');
+  if (subCount) subCount.textContent = subs.length;
+  const subList = document.getElementById('subscribersList');
+  if (subList) {
+    subList.innerHTML = subs.map(s => `
+      <div class="p-row">
+        <span>✉️ <strong>${s.email}</strong></span>
+        <span style="color: #94a3b8;">${s.date}</span>
+      </div>
+    `).join('') || '<p style="color: #94a3b8;">No subscribers yet. When users submit their email, they appear here!</p>';
+  }
+
   dashboardModal.classList.remove('hidden');
 }
 
@@ -1516,12 +1530,27 @@ function saveSettings(e) {
   closeSettings();
 }
 
-// Newsletter
+// Newsletter & Subscriber Management
+function getSubscribers() {
+  try {
+    const list = localStorage.getItem('cinefind_subscribers');
+    return list ? JSON.parse(list) : [];
+  } catch (e) { return []; }
+}
+
 function handleNewsletter(e) {
   e.preventDefault();
   const emailInput = document.getElementById('newsletterEmail');
-  if (emailInput && emailInput.value) {
-    showToast(`🎉 Subscribed ${emailInput.value} to streaming alerts!`);
+  if (emailInput && emailInput.value.trim()) {
+    const email = emailInput.value.trim();
+    let subs = getSubscribers();
+    if (!subs.some(s => s.email.toLowerCase() === email.toLowerCase())) {
+      subs.unshift({ email, date: new Date().toLocaleDateString() });
+      try {
+        localStorage.setItem('cinefind_subscribers', JSON.stringify(subs));
+      } catch (err) {}
+    }
+    showToast(`🎉 Subscribed ${email} to streaming alerts!`);
     emailInput.value = '';
   }
 }
