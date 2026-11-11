@@ -560,6 +560,65 @@ document.addEventListener('DOMContentLoaded', () => {
 function initCatalog() {
   allMovies = [...CURATED_TITLES];
   renderMovies(allMovies);
+  // Auto-enrich curated titles with real TMDB posters
+  enrichPostersFromTMDB();
+}
+
+// Fetch real poster images from TMDB for every curated title
+async function enrichPostersFromTMDB() {
+  const config = getConfig();
+  if (!config.tmdbApiKey) return;
+
+  const promises = allMovies.map(async (movie) => {
+    // Skip items already fetched from TMDB (they already have correct posters)
+    if (movie.id.startsWith('tmdb-') || movie.id.startsWith('tvmaze-') || movie.id.startsWith('itunes-')) return;
+
+    try {
+      const mediaType = movie.type === 'tv' ? 'tv' : 'movie';
+      const searchUrl = `https://api.themoviedb.org/3/search/${mediaType}?api_key=${encodeURIComponent(config.tmdbApiKey)}&query=${encodeURIComponent(movie.title)}&include_adult=false`;
+      const res = await fetch(searchUrl);
+      const data = await res.json();
+
+      if (data.results && data.results.length > 0) {
+        // Find the best match by year if possible
+        const yearNum = parseInt(movie.year);
+        let best = data.results[0];
+        if (yearNum) {
+          const yearMatch = data.results.find(r => {
+            const rYear = parseInt((r.release_date || r.first_air_date || '').substring(0, 4));
+            return rYear === yearNum;
+          });
+          if (yearMatch) best = yearMatch;
+        }
+
+        if (best.poster_path) {
+          movie.poster = `https://image.tmdb.org/t/p/w500${best.poster_path}`;
+        }
+        if (best.backdrop_path) {
+          movie.backdrop = `https://image.tmdb.org/t/p/w1280${best.backdrop_path}`;
+        }
+        // Store TMDB ID for trailer fetching
+        movie._tmdbId = best.id;
+        movie._tmdbType = mediaType;
+      }
+    } catch (e) {
+      // Silently fail for individual titles
+    }
+  });
+
+  await Promise.allSettled(promises);
+  // Re-render with real posters
+  renderMovies(allMovies.filter(m => {
+    if (currentFilter.type !== 'All' && m.type !== currentFilter.type) return false;
+    if (currentFilter.provider !== 'All') {
+      if (!m.providers.some(p => p.name.toLowerCase().includes(currentFilter.provider.toLowerCase()))) return false;
+    }
+    if (currentFilter.genre !== 'All') {
+      if (!m.genres.some(g => g.toLowerCase() === currentFilter.genre.toLowerCase())) return false;
+    }
+    return true;
+  }));
+  loadHeroSpotlight();
 }
 
 // Setup Event Listeners
@@ -850,11 +909,11 @@ function openMovie(movieId) {
               allowfullscreen></iframe>
     `;
   }
-  // 2. Fetch official trailer from TMDB if it's a TMDB item
-  else if (movie.id && movie.id.startsWith('tmdb-')) {
-    const tmdbId = movie.id.replace('tmdb-', '');
+  // 2. Fetch official trailer from TMDB (works for tmdb- items AND enriched curated items)
+  else if ((movie.id && movie.id.startsWith('tmdb-')) || movie._tmdbId) {
+    const tmdbId = movie._tmdbId || movie.id.replace('tmdb-', '');
     const config = getConfig();
-    const mediaType = movie.type === 'tv' ? 'tv' : 'movie';
+    const mediaType = movie._tmdbType || (movie.type === 'tv' ? 'tv' : 'movie');
     const backdropImg = movie.backdrop || movie.poster;
 
     renderBackdropWithBtn(backdropImg);
