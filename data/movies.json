@@ -14,12 +14,94 @@
     "director": "Denis Villeneuve",
     "cast": ["Timothée Chalamet", "Zendaya", "Rebecca Ferguson", "Javier Bardem"],
     "providers": [
-      { "name": "Max", "type": "Subscription", "badge": "Stream", "price": "Included with Sub", "url": "https://www.max.com", "isAffiliate": true },
-      { "name": "Amazon Prime Video", "type": "Rent", "badge": "Rent $3.99", "price": "$3.99", "url": "https://www.amazon.com/gp/video/storefront", "isAffiliate": true },
-      { "name": "Apple TV", "type": "Buy", "badge": "Buy $19.99", "price": "$19.99", "url": "https://tv.apple.com", "isAffiliate": true }
+      { "name": "JioCinema", "type": "Subscription", "badge": "Stream", "price": "Included with Sub", "url": "https://www.jiocinema.com", "isAffiliate": true },
+      { "name": "Amazon Prime Video", "type": "Rent", "badge": "Rent ₹119", "price": "₹119", "url": "https://www.amazon.in/gp/video/storefront", "isAffiliate": true },
+      { "name": "Apple TV", "type": "Buy", "badge": "Buy", "price": "₹490", "url": "https://tv.apple.com", "isAffiliate": true }
     ],
     "trending": true,
     "featured": true
+  },
+  {
+    "id": "deadpool-wolverine",
+    "title": "Deadpool & Wolverine",
+    "year": 2024,
+    "rating": 7.9,
+    "runtime": "128 min",
+    "genres": ["Action", "Comedy", "Sci-Fi"],
+    "tagline": "Come together.",
+    "overview": "A listless Wade Wilson toils away in civilian life with his days as the morally flexible mercenary Deadpool behind him. But when his homeworld faces an existential threat, Wade must reluctantly suit-up again with an even more reluctant Wolverine.",
+    "poster": "https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?auto=format&fit=crop&w=600&q=80",
+    "backdrop": "https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=1200&q=80",
+    "trailerKey": "73_1biulkYk",
+    "director": "Shawn Levy",
+    "cast": ["Ryan Reynolds", "Hugh Jackman", "Emma Corrin", "Morena Baccarin"],
+    "providers": [
+      { "name": "Disney+ Hotstar", "type": "Subscription", "badge": "Stream", "price": "Included with Sub", "url": "https://www.hotstar.com", "isAffiliate": true },
+      { "name": "Amazon Prime Video", "type": "Rent", "badge": "Rent ₹149", "price": "₹149", "url": "https://www.amazon.in/gp/video/storefront", "isAffiliate": true }
+    ],
+    "trending": true,
+    "featured": false
+  },
+  {
+    "id": "kalki-2898-ad",
+    "title": "Kalki 2898 AD",
+    "year": 2024,
+    "rating": 7.6,
+    "runtime": "181 min",
+    "genres": ["Sci-Fi", "Action", "Mythology"],
+    "tagline": "The future has a savior.",
+    "overview": "Set in a post-apocalyptic world in the year 2898 AD, the film follows a select group on a mission to save the unborn child of SUM-80, believed to be the avatar of Vishnu.",
+    "poster": "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=600&q=80",
+    "backdrop": "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1200&q=80",
+    "trailerKey": "y1-w1CdG19A",
+    "director": "Nag Ashwin",
+    "cast": ["Prabhas", "Amitabh Bachchan", "Kamal Haasan", "Deepika Padukone"],
+    "providers": [
+      { "name": "Netflix", "type": "Subscription", "badge": "Stream (Hindi)", "price": "Included with Sub", "url": "https://www.netflix.com", "isAffiliate": true },
+      { "name": "Amazon Prime Video", "type": "Subscription", "badge": "Stream (South)", "price": "Included with Prime", "url": "https://www.amazon.in/gp/video/storefront", "isAffiliate": true }
+    ],
+    "trending": true,
+    "featured": false
+  },
+  {
+    "id": "stree-2",
+    "title": "Stree 2: Sarkate Ka Aatank",
+    "year": 2024,
+    "rating": 7.7,
+    "runtime": "147 min",
+    "genres": ["Comedy", "Horror"],
+    "tagline": "O Stree kal mat aana, aaj hi aana.",
+    "overview": "After the events of Stree, the town of Chanderi is being haunted again. This time, women are mysteriously abducted by a headless entity called Sarkata.",
+    "poster": "https://images.unsplash.com/photo-1509281373149-e957c6296406?auto=format&fit=crop&w=600&q=80",
+    "backdrop": "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&w=1200&q=80",
+    "trailerKey": "KVnhe472fBw",
+    "director": "Amar Kaushik",
+    "cast": ["Rajkummar Rao", "Shraddha Kapoor", "Pankaj Tripathi", "Abhishek Banerjee"],
+    "providers": [
+      { "name": "Amazon Prime Video", "type": "Subscription", "badge": "Stream", "price": "Included with Prime", "url": "https://www.amazon.in/gp/video/storefront", "isAffiliate": true }
+    ],
+    "trending": true,
+    "featured": false
+  },
+  {
+    "id": "12th-fail",
+    "title": "12th Fail",
+    "year": 2023,
+    "rating": 8.9,
+    "runtime": "147 min",
+    "genres": ["Drama", "Biography"],
+    "tagline": "Restart.",
+    "overview": "Inspired by millions of true stories of students attempting the world's toughest competitive exam, UPSC, following Manoj Kumar Sharma from Chambal as he restarts his life against all odds.",
+    "poster": "https://images.unsplash.com/photo-1440404653325-ab127d49abc1?auto=format&fit=crop&w=600&q=80",
+    "backdrop": "https://images.unsplash.com/photo-1519074069444-1ba4ea16e911?auto=format&fit=crop&w=1200&q=80",
+    "trailerKey": "we3sPqL9nF8",
+    "director": "Vidhu Vinod Chopra",
+    "cast": ["Vikrant Massey", "Medha Shankar", "Anant Joshi"],
+    "providers": [
+      { "name": "Disney+ Hotstar", "type": "Subscription", "badge": "Stream", "price": "Included with Sub", "url": "https://www.hotstar.com", "isAffiliate": true }
+    ],
+    "trending": true,
+    "featured": false
   },
   {
     "id": "oppenheimer",
@@ -30,35 +112,55 @@
     "genres": ["Biography", "Drama", "History"],
     "tagline": "The world forever changes.",
     "overview": "The story of American scientist J. Robert Oppenheimer and his role in the development of the atomic bomb during World War II.",
-    "poster": "https://images.unsplash.com/photo-1440404653325-ab127d49abc1?auto=format&fit=crop&w=600&q=80",
-    "backdrop": "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1200&q=80",
+    "poster": "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=600&q=80",
+    "backdrop": "https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?auto=format&fit=crop&w=1200&q=80",
     "trailerKey": "uYPbbksJxIg",
     "director": "Christopher Nolan",
     "cast": ["Cillian Murphy", "Emily Blunt", "Matt Damon", "Robert Downey Jr."],
     "providers": [
-      { "name": "Amazon Prime Video", "type": "Subscription", "badge": "Stream", "price": "Included with Prime", "url": "https://www.amazon.com/gp/video/storefront", "isAffiliate": true },
-      { "name": "Apple TV", "type": "Rent", "badge": "Rent $3.99", "price": "$3.99", "url": "https://tv.apple.com", "isAffiliate": true }
+      { "name": "JioCinema", "type": "Subscription", "badge": "Stream", "price": "Included with Premium", "url": "https://www.jiocinema.com", "isAffiliate": true },
+      { "name": "Amazon Prime Video", "type": "Rent", "badge": "Rent ₹119", "price": "₹119", "url": "https://www.amazon.in/gp/video/storefront", "isAffiliate": true }
     ],
     "trending": true,
     "featured": false
   },
   {
-    "id": "spider-verse",
-    "title": "Spider-Man: Across the Spider-Verse",
-    "year": 2023,
-    "rating": 8.7,
-    "runtime": "140 min",
-    "genres": ["Animation", "Action", "Adventure"],
-    "tagline": "It's how you wear the mask that matters.",
-    "overview": "Miles Morales catapults across the Multiverse, where he encounters a team of Spider-People charged with protecting its very existence.",
-    "poster": "https://images.unsplash.com/photo-1635805737707-575885ab0820?auto=format&fit=crop&w=600&q=80",
-    "backdrop": "https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?auto=format&fit=crop&w=1200&q=80",
-    "trailerKey": "cqGjhVJWtEg",
-    "director": "Joaquim Dos Santos, Kemp Powers",
-    "cast": ["Shameik Moore", "Hailee Steinfeld", "Oscar Isaac"],
+    "id": "rrr",
+    "title": "RRR",
+    "year": 2022,
+    "rating": 7.8,
+    "runtime": "187 min",
+    "genres": ["Action", "Drama"],
+    "tagline": "Rise. Roar. Revolt.",
+    "overview": "A fearless revolutionary and an officer in the British force, who once shared a deep bond, decide to join forces and chart out an inspiring path of freedom against the despotic rulers.",
+    "poster": "https://images.unsplash.com/photo-1536440136628-849c177e76a1?auto=format&fit=crop&w=600&q=80",
+    "backdrop": "https://images.unsplash.com/photo-1508614589041-895b88991e3e?auto=format&fit=crop&w=1200&q=80",
+    "trailerKey": "NgBoMJy386M",
+    "director": "S.S. Rajamouli",
+    "cast": ["N.T. Rama Rao Jr.", "Ram Charan", "Ajay Devgn", "Alia Bhatt"],
     "providers": [
-      { "name": "Netflix", "type": "Subscription", "badge": "Stream", "price": "Included with Sub", "url": "https://www.netflix.com", "isAffiliate": true },
-      { "name": "Amazon Prime Video", "type": "Rent", "badge": "Rent $3.99", "price": "$3.99", "url": "https://www.amazon.com/gp/video/storefront", "isAffiliate": true }
+      { "name": "Netflix", "type": "Subscription", "badge": "Stream (Hindi)", "price": "Included with Sub", "url": "https://www.netflix.com", "isAffiliate": true },
+      { "name": "Disney+ Hotstar", "type": "Subscription", "badge": "Stream (South)", "price": "Included with Sub", "url": "https://www.hotstar.com", "isAffiliate": true }
+    ],
+    "trending": true,
+    "featured": false
+  },
+  {
+    "id": "jawan",
+    "title": "Jawan",
+    "year": 2023,
+    "rating": 7.0,
+    "runtime": "169 min",
+    "genres": ["Action", "Thriller"],
+    "tagline": "Ready.",
+    "overview": "A man is driven by a personal vendetta to rectify the wrongs in society, while keeping a promise made years ago. He comes up against a monstrous outlaw with no fear, who's caused extreme suffering to many.",
+    "poster": "https://images.unsplash.com/photo-1519074069444-1ba4ea16e911?auto=format&fit=crop&w=600&q=80",
+    "backdrop": "https://images.unsplash.com/photo-1462331940025-496dfbfc7564?auto=format&fit=crop&w=1200&q=80",
+    "trailerKey": "MWOlnZSnXWA",
+    "director": "Atlee",
+    "cast": ["Shah Rukh Khan", "Nayanthara", "Vijay Sethupathi", "Deepika Padukone"],
+    "providers": [
+      { "name": "Netflix", "type": "Subscription", "badge": "Stream Extended Cut", "price": "Included with Sub", "url": "https://www.netflix.com", "isAffiliate": true }
     ],
     "trending": true,
     "featured": false
@@ -78,71 +180,91 @@
     "director": "Christopher Nolan",
     "cast": ["Matthew McConaughey", "Anne Hathaway", "Jessica Chastain"],
     "providers": [
-      { "name": "Amazon Prime Video", "type": "Subscription", "badge": "Stream", "price": "Included with Prime", "url": "https://www.amazon.com/gp/video/storefront", "isAffiliate": true },
-      { "name": "Paramount+", "type": "Subscription", "badge": "Stream", "price": "Included with Sub", "url": "https://www.paramountplus.com", "isAffiliate": true }
+      { "name": "Amazon Prime Video", "type": "Subscription", "badge": "Stream", "price": "Included with Prime", "url": "https://www.amazon.in/gp/video/storefront", "isAffiliate": true },
+      { "name": "JioCinema", "type": "Subscription", "badge": "Stream", "price": "Included with Sub", "url": "https://www.jiocinema.com", "isAffiliate": true }
     ],
     "trending": false,
     "featured": false
   },
   {
-    "id": "the-batman",
-    "title": "The Batman",
-    "year": 2022,
-    "rating": 7.8,
-    "runtime": "176 min",
+    "id": "the-dark-knight",
+    "title": "The Dark Knight",
+    "year": 2008,
+    "rating": 9.0,
+    "runtime": "152 min",
     "genres": ["Action", "Crime", "Drama"],
-    "tagline": "Unmask the truth.",
-    "overview": "In his second year of fighting crime, Batman uncovers corruption in Gotham City that connects to his own family while facing a serial killer known as the Riddler.",
+    "tagline": "Why so serious?",
+    "overview": "When the menace known as the Joker wreaks havoc and chaos on the people of Gotham, Batman must accept one of the greatest psychological and physical tests of his ability to fight injustice.",
     "poster": "https://images.unsplash.com/photo-1509281373149-e957c6296406?auto=format&fit=crop&w=600&q=80",
-    "backdrop": "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=1200&q=80",
-    "trailerKey": "mqqft2x_Aa4",
-    "director": "Matt Reeves",
-    "cast": ["Robert Pattinson", "Zoë Kravitz", "Paul Dano", "Colin Farrell"],
+    "backdrop": "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1200&q=80",
+    "trailerKey": "EXeTwQWrcwY",
+    "director": "Christopher Nolan",
+    "cast": ["Christian Bale", "Heath Ledger", "Aaron Eckhart", "Michael Caine"],
     "providers": [
-      { "name": "Max", "type": "Subscription", "badge": "Stream", "price": "Included with Sub", "url": "https://www.max.com", "isAffiliate": true },
-      { "name": "Netflix", "type": "Subscription", "badge": "Stream", "price": "Included with Sub", "url": "https://www.netflix.com", "isAffiliate": true }
-    ],
-    "trending": false,
-    "featured": false
-  },
-  {
-    "id": "top-gun-maverick",
-    "title": "Top Gun: Maverick",
-    "year": 2022,
-    "rating": 8.3,
-    "runtime": "130 min",
-    "genres": ["Action", "Drama"],
-    "tagline": "Feel the need. The need for speed.",
-    "overview": "After thirty years, Maverick is still pushing the envelope as a top naval aviator, but must confront ghosts of his past when he leads TOP GUN's elite graduates on an impossible mission.",
-    "poster": "https://images.unsplash.com/photo-1519074069444-1ba4ea16e911?auto=format&fit=crop&w=600&q=80",
-    "backdrop": "https://images.unsplash.com/photo-1508614589041-895b88991e3e?auto=format&fit=crop&w=1200&q=80",
-    "trailerKey": "giXco2jaZ_4",
-    "director": "Joseph Kosinski",
-    "cast": ["Tom Cruise", "Miles Teller", "Jennifer Connelly"],
-    "providers": [
-      { "name": "Paramount+", "type": "Subscription", "badge": "Stream", "price": "Included with Sub", "url": "https://www.paramountplus.com", "isAffiliate": true },
-      { "name": "Amazon Prime Video", "type": "Subscription", "badge": "Stream", "price": "Included with Prime", "url": "https://www.amazon.com/gp/video/storefront", "isAffiliate": true }
+      { "name": "JioCinema", "type": "Subscription", "badge": "Stream", "price": "Included with Sub", "url": "https://www.jiocinema.com", "isAffiliate": true },
+      { "name": "Amazon Prime Video", "type": "Rent", "badge": "Rent ₹119", "price": "₹119", "url": "https://www.amazon.in/gp/video/storefront", "isAffiliate": true }
     ],
     "trending": true,
     "featured": false
   },
   {
-    "id": "everything-everywhere",
-    "title": "Everything Everywhere All at Once",
-    "year": 2022,
-    "rating": 7.8,
-    "runtime": "139 min",
-    "genres": ["Sci-Fi", "Comedy", "Adventure"],
-    "tagline": "The universe is so much bigger than you realize.",
-    "overview": "A middle-aged Chinese immigrant is swept up into an insane adventure in which she alone can save existence by exploring other universes and connecting with the lives she could have led.",
-    "poster": "https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=600&q=80",
-    "backdrop": "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1200&q=80",
-    "trailerKey": "wxN1T1uxQ2g",
-    "director": "Daniel Kwan, Daniel Scheinert",
-    "cast": ["Michelle Yeoh", "Stephanie Hsu", "Ke Huy Quan", "Jamie Lee Curtis"],
+    "id": "inception",
+    "title": "Inception",
+    "year": 2010,
+    "rating": 8.8,
+    "runtime": "148 min",
+    "genres": ["Sci-Fi", "Action", "Adventure"],
+    "tagline": "Your mind is the scene of the crime.",
+    "overview": "A thief who steals corporate secrets through the use of dream-sharing technology is given the inverse task of planting an idea into the mind of a C.E.O., but his tragic past may doom the project.",
+    "poster": "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=600&q=80",
+    "backdrop": "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1200&q=80",
+    "trailerKey": "YoHD9XEInc0",
+    "director": "Christopher Nolan",
+    "cast": ["Leonardo DiCaprio", "Joseph Gordon-Levitt", "Elliot Page", "Tom Hardy"],
     "providers": [
       { "name": "Netflix", "type": "Subscription", "badge": "Stream", "price": "Included with Sub", "url": "https://www.netflix.com", "isAffiliate": true },
-      { "name": "Amazon Prime Video", "type": "Rent", "badge": "Rent $3.99", "price": "$3.99", "url": "https://www.amazon.com/gp/video/storefront", "isAffiliate": true }
+      { "name": "Amazon Prime Video", "type": "Rent", "badge": "Rent ₹119", "price": "₹119", "url": "https://www.amazon.in/gp/video/storefront", "isAffiliate": true }
+    ],
+    "trending": false,
+    "featured": false
+  },
+  {
+    "id": "spider-verse",
+    "title": "Spider-Man: Across the Spider-Verse",
+    "year": 2023,
+    "rating": 8.7,
+    "runtime": "140 min",
+    "genres": ["Animation", "Action", "Adventure"],
+    "tagline": "It's how you wear the mask that matters.",
+    "overview": "Miles Morales catapults across the Multiverse, where he encounters a team of Spider-People charged with protecting its very existence.",
+    "poster": "https://images.unsplash.com/photo-1635805737707-575885ab0820?auto=format&fit=crop&w=600&q=80",
+    "backdrop": "https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?auto=format&fit=crop&w=1200&q=80",
+    "trailerKey": "cqGjhVJWtEg",
+    "director": "Joaquim Dos Santos",
+    "cast": ["Shameik Moore", "Hailee Steinfeld", "Oscar Isaac"],
+    "providers": [
+      { "name": "Netflix", "type": "Subscription", "badge": "Stream", "price": "Included with Sub", "url": "https://www.netflix.com", "isAffiliate": true },
+      { "name": "Amazon Prime Video", "type": "Rent", "badge": "Rent ₹119", "price": "₹119", "url": "https://www.amazon.in/gp/video/storefront", "isAffiliate": true }
+    ],
+    "trending": true,
+    "featured": false
+  },
+  {
+    "id": "3-idiots",
+    "title": "3 Idiots",
+    "year": 2009,
+    "rating": 8.4,
+    "runtime": "170 min",
+    "genres": ["Comedy", "Drama"],
+    "tagline": "All is well.",
+    "overview": "Two friends embark on a quest for a lost buddy. On this journey, they reminisce about their college days and the friend who inspired them to think differently, even as all the other students conformed.",
+    "poster": "https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=600&q=80",
+    "backdrop": "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?auto=format&fit=crop&w=1200&q=80",
+    "trailerKey": "K0eDlFX9GMc",
+    "director": "Rajkumar Hirani",
+    "cast": ["Aamir Khan", "Madhavan", "Sharman Joshi", "Kareena Kapoor"],
+    "providers": [
+      { "name": "Amazon Prime Video", "type": "Subscription", "badge": "Stream", "price": "Included with Prime", "url": "https://www.amazon.in/gp/video/storefront", "isAffiliate": true }
     ],
     "trending": false,
     "featured": false
@@ -160,10 +282,9 @@
     "backdrop": "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&w=1200&q=80",
     "trailerKey": "qEVUtrk8_B4",
     "director": "Chad Stahelski",
-    "cast": ["Keanu Reeves", "Donnie Yen", "Bill Skarsgård", "Laurence Fishburne"],
+    "cast": ["Keanu Reeves", "Donnie Yen", "Bill Skarsgård"],
     "providers": [
-      { "name": "Starz", "type": "Subscription", "badge": "Stream", "price": "Included with Sub", "url": "https://www.starz.com", "isAffiliate": true },
-      { "name": "Amazon Prime Video", "type": "Rent", "badge": "Rent $3.99", "price": "$3.99", "url": "https://www.amazon.com/gp/video/storefront", "isAffiliate": true }
+      { "name": "Amazon Prime Video", "type": "Subscription", "badge": "Stream", "price": "Included with Prime", "url": "https://www.amazon.in/gp/video/storefront", "isAffiliate": true }
     ],
     "trending": true,
     "featured": false
