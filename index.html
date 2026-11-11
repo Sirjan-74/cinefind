@@ -53,6 +53,8 @@
         <button class="nav-link-btn" onclick="resetFilters()">🍿 Discover</button>
         <button class="nav-link-btn" onclick="filterByType('movie')">🎬 Movies</button>
         <button class="nav-link-btn" onclick="filterByType('tv')">📺 TV Series</button>
+        <button class="nav-link-btn" onclick="surpriseMe()">🎲 Surprise Me</button>
+        <button class="nav-link-btn" id="navWatchlistBtn" onclick="toggleWatchlistView()">🔖 Watchlist (<span id="navWatchlistCount">0</span>)</button>
       </div>
     </div>
   </header>
@@ -102,17 +104,19 @@
 
     <!-- Trending Search Suggestions Bar -->
     <div class="trending-search-bar">
-      <span class="chip-label">🔥 Trending Right Now:</span>
+      <span class="chip-label">🔥 Trending Blockbusters:</span>
       <div class="chips-container">
+        <button class="suggestion-chip" data-query="Pushpa 2: The Rule">🔥 Pushpa 2: The Rule</button>
+        <button class="suggestion-chip" data-query="Singham Again">Singham Again</button>
+        <button class="suggestion-chip" data-query="Bhool Bhulaiyaa 3">Bhool Bhulaiyaa 3</button>
+        <button class="suggestion-chip" data-query="The Penguin">The Penguin</button>
+        <button class="suggestion-chip" data-query="Squid Game">Squid Game</button>
+        <button class="suggestion-chip" data-query="Devara: Part 1">Devara: Part 1</button>
         <button class="suggestion-chip" data-query="Ramayana">Ramayana: Part 1</button>
-        <button class="suggestion-chip" data-query="The Mentalist">The Mentalist</button>
         <button class="suggestion-chip" data-query="Kalki 2898 AD">Kalki 2898 AD</button>
-        <button class="suggestion-chip" data-query="Breaking Bad">Breaking Bad</button>
         <button class="suggestion-chip" data-query="Stree 2">Stree 2</button>
-        <button class="suggestion-chip" data-query="Deadpool & Wolverine">Deadpool & Wolverine</button>
-        <button class="suggestion-chip" data-query="Stranger Things">Stranger Things</button>
-        <button class="suggestion-chip" data-query="Interstellar">Interstellar</button>
-        <button class="suggestion-chip" data-query="12th Fail">12th Fail</button>
+        <button class="suggestion-chip" data-query="The Mentalist">The Mentalist</button>
+        <button class="suggestion-chip" data-query="Breaking Bad">Breaking Bad</button>
       </div>
     </div>
 
@@ -201,6 +205,19 @@
 
         <div class="modal-meta-row">
           <span id="modalYear"></span> • <span id="modalRuntime"></span> • <span id="modalGenres"></span>
+        </div>
+
+        <!-- Interactive Actions (Watchlist, WhatsApp Share, Copy Link) -->
+        <div class="modal-actions-bar">
+          <button id="modalWatchlistBtn" class="modal-action-btn" onclick="handleModalWatchlistToggle()">
+            <span class="icon">🔖</span> <span id="modalWatchlistText">Add to Watchlist</span>
+          </button>
+          <button class="modal-action-btn share-whatsapp" onclick="shareCurrentMovieToWhatsApp()">
+            <span class="icon">💬</span> Share on WhatsApp
+          </button>
+          <button class="modal-action-btn" onclick="copyCurrentMovieLink()">
+            <span class="icon">📋</span> Copy Link
+          </button>
         </div>
 
         <p id="modalOverview" class="modal-overview"></p>

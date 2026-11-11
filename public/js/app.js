@@ -123,6 +123,134 @@ const CURATED_TITLES = [
     featured: true
   },
   {
+    id: "pushpa-2",
+    title: "Pushpa 2: The Rule",
+    type: "movie",
+    year: "2024",
+    rating: 8.8,
+    runtime: "200 min",
+    genres: ["Action", "Crime", "Thriller"],
+    tagline: "Rule begins.",
+    overview: "Pushpa Raj continues his dominance over the red sandalwood smuggling syndicate, clashing fiercely with SP Bhanwar Singh Shekhawat in a war of power, grit, and retribution.",
+    poster: "",
+    backdrop: "",
+    trailerQuery: "Pushpa 2 The Rule official trailer",
+    director: "Sukumar",
+    cast: ["Allu Arjun", "Rashmika Mandanna", "Fahadh Faasil"],
+    providers: [
+      { name: "Netflix", type: "Subscription", badge: "Stream Post-Theatrical", price: "Included with Sub", url: "https://www.netflix.com", isAffiliate: true },
+      { name: "Amazon Prime Video", type: "Rent", badge: "Stream / Rent", price: "Rent", url: "https://www.amazon.com/gp/video/storefront", isAffiliate: true }
+    ],
+    trending: true,
+    featured: false
+  },
+  {
+    id: "singham-again",
+    title: "Singham Again",
+    type: "movie",
+    year: "2024",
+    rating: 7.5,
+    runtime: "144 min",
+    genres: ["Action", "Drama"],
+    tagline: "Lion is back.",
+    overview: "DCP Bajirao Singham leads the Cop Universe alongside Simmba, Sooryavanshi, and Shakti Shetty on a high-stakes cross-border rescue mission inspired by modern epic themes.",
+    poster: "",
+    backdrop: "",
+    trailerQuery: "Singham Again official trailer",
+    director: "Rohit Shetty",
+    cast: ["Ajay Devgn", "Kareena Kapoor", "Deepika Padukone", "Ranveer Singh", "Akshay Kumar"],
+    providers: [
+      { name: "Amazon Prime Video", type: "Subscription", badge: "Stream on Prime", price: "Included with Prime", url: "https://www.amazon.com/gp/video/storefront", isAffiliate: true }
+    ],
+    trending: true,
+    featured: false
+  },
+  {
+    id: "bhool-bhulaiyaa-3",
+    title: "Bhool Bhulaiyaa 3",
+    type: "movie",
+    year: "2024",
+    rating: 7.4,
+    runtime: "158 min",
+    genres: ["Comedy", "Horror"],
+    tagline: "Double Manjulika horror.",
+    overview: "Rooh Baba travels to the haunted kingdom of Raktaghat in Bengal, facing two vengeful spirits who claim to be the original Manjulika.",
+    poster: "",
+    backdrop: "",
+    trailerQuery: "Bhool Bhulaiyaa 3 official trailer",
+    director: "Anees Bazmee",
+    cast: ["Kartik Aaryan", "Vidya Balan", "Madhuri Dixit", "Triptii Dimri"],
+    providers: [
+      { name: "Netflix", type: "Subscription", badge: "Stream on Netflix", price: "Included with Sub", url: "https://www.netflix.com", isAffiliate: true }
+    ],
+    trending: true,
+    featured: false
+  },
+  {
+    id: "the-penguin",
+    title: "The Penguin",
+    type: "tv",
+    year: "2024",
+    rating: 8.8,
+    runtime: "1 Season • 8 eps",
+    genres: ["Crime", "Drama"],
+    tagline: "Gotham is his.",
+    overview: "Following the events of The Batman, Oz Cobb wages a brutal and cunning war for the criminal throne of Gotham City against Sofia Falcone.",
+    poster: "",
+    backdrop: "",
+    trailerQuery: "The Penguin official trailer HBO",
+    director: "Lauren LeFranc",
+    cast: ["Colin Farrell", "Cristin Milioti", "Rhenzy Feliz"],
+    providers: [
+      { name: "JioCinema", type: "Subscription", badge: "Stream Premium 4K", price: "Included with Sub", url: "https://www.jiocinema.com", isAffiliate: true },
+      { name: "Amazon Prime Video", type: "Rent", badge: "Stream / Rent", price: "Rent", url: "https://www.amazon.com/gp/video/storefront", isAffiliate: true }
+    ],
+    trending: true,
+    featured: false
+  },
+  {
+    id: "squid-game",
+    title: "Squid Game",
+    type: "tv",
+    year: "2021–2024",
+    rating: 8.0,
+    runtime: "2 Seasons • 15 eps",
+    genres: ["Drama", "Mystery", "Thriller"],
+    tagline: "The game never ends.",
+    overview: "Hundreds of cash-strapped players accept a strange invitation to compete in children's games for a tempting prize, but the stakes are deadly.",
+    poster: "",
+    backdrop: "",
+    trailerQuery: "Squid Game Season 2 official trailer",
+    director: "Hwang Dong-hyuk",
+    cast: ["Lee Jung-jae", "Lee Byung-hun", "Wi Ha-joon"],
+    providers: [
+      { name: "Netflix", type: "Subscription", badge: "Stream in 4K Dolby Vision", price: "Included with Sub", url: "https://www.netflix.com", isAffiliate: true }
+    ],
+    trending: true,
+    featured: false
+  },
+  {
+    id: "devara-part-1",
+    title: "Devara: Part 1",
+    type: "movie",
+    year: "2024",
+    rating: 7.2,
+    runtime: "178 min",
+    genres: ["Action", "Drama"],
+    tagline: "All hail the sea.",
+    overview: "A fearless sea chieftain stands against the lawless piracy of coastal clans, sparking a generational feud spanning across treacherous coastal waters.",
+    poster: "",
+    backdrop: "",
+    trailerQuery: "Devara Part 1 official trailer",
+    director: "Koratala Siva",
+    cast: ["N.T. Rama Rao Jr.", "Janhvi Kapoor", "Saif Ali Khan"],
+    providers: [
+      { name: "Netflix", type: "Subscription", badge: "Stream in Hindi & South", price: "Included with Sub", url: "https://www.netflix.com", isAffiliate: true }
+    ],
+    trending: true,
+    featured: false
+  },
+  {
     id: "the-mentalist",
     title: "The Mentalist",
     type: "tv",
@@ -581,6 +709,147 @@ function buildAffiliateUrl(originalUrl, movieTitle) {
   return originalUrl;
 }
 
+// Watchlist Management (100% Client-Side Persistence)
+function getWatchlist() {
+  try {
+    const list = localStorage.getItem('cinefind_watchlist');
+    return list ? JSON.parse(list) : [];
+  } catch (e) { return []; }
+}
+
+function saveWatchlist(list) {
+  try {
+    localStorage.setItem('cinefind_watchlist', JSON.stringify(list));
+  } catch (e) {}
+  updateWatchlistBadge();
+}
+
+function isInWatchlist(id) {
+  return getWatchlist().includes(id);
+}
+
+function toggleWatchlist(movieId, e) {
+  if (e) e.stopPropagation();
+  let list = getWatchlist();
+  const exists = list.includes(movieId);
+  if (exists) {
+    list = list.filter(id => id !== movieId);
+    showToast('Removed from Watchlist ❌');
+  } else {
+    list.push(movieId);
+    showToast('Saved to Watchlist! 🔖');
+  }
+  saveWatchlist(list);
+  updateModalWatchlistState(movieId);
+  if (isWatchlistActive) {
+    showWatchlistView();
+  } else {
+    updateCardWatchlistBadges();
+  }
+}
+
+let isWatchlistActive = false;
+function toggleWatchlistView() {
+  isWatchlistActive = !isWatchlistActive;
+  const btn = document.getElementById('navWatchlistBtn');
+  if (btn) btn.classList.toggle('active', isWatchlistActive);
+  
+  if (isWatchlistActive) {
+    showWatchlistView();
+  } else {
+    resetFilters();
+  }
+}
+
+function showWatchlistView() {
+  const list = getWatchlist();
+  const savedMovies = allMovies.filter(m => list.includes(m.id));
+  const catTitle = document.getElementById('catalogTitle');
+  if (catTitle) catTitle.textContent = `🔖 My Watchlist (${savedMovies.length})`;
+  renderMovies(savedMovies);
+  const catalog = document.getElementById('catalogSection');
+  if (catalog) catalog.scrollIntoView({ behavior: 'smooth' });
+}
+
+function updateWatchlistBadge() {
+  const count = getWatchlist().length;
+  const badge = document.getElementById('navWatchlistCount');
+  if (badge) badge.textContent = count;
+}
+
+function updateCardWatchlistBadges() {
+  const list = getWatchlist();
+  document.querySelectorAll('.card-watchlist-btn').forEach(btn => {
+    const id = btn.dataset.id;
+    const active = list.includes(id);
+    btn.classList.toggle('active', active);
+    btn.innerHTML = active ? '★' : '☆';
+    btn.title = active ? 'Remove from Watchlist' : 'Add to Watchlist';
+  });
+}
+
+function handleModalWatchlistToggle() {
+  if (currentOpenMovieId) {
+    toggleWatchlist(currentOpenMovieId);
+  }
+}
+
+function updateModalWatchlistState(movieId) {
+  const btn = document.getElementById('modalWatchlistBtn');
+  const txt = document.getElementById('modalWatchlistText');
+  if (!btn || !txt) return;
+  const active = isInWatchlist(movieId);
+  btn.classList.toggle('active', active);
+  txt.textContent = active ? 'In Your Watchlist ★' : 'Add to Watchlist';
+}
+
+// Surprise Me (Random Pick)
+function surpriseMe() {
+  const eligible = allMovies.filter(m => m.rating >= 7.5);
+  const pool = eligible.length > 0 ? eligible : allMovies;
+  const picked = pool[Math.floor(Math.random() * pool.length)];
+  if (picked) {
+    showToast(`🎲 Surprise Pick: ${picked.title}!`);
+    openMovie(picked.id);
+  }
+}
+
+// Deep-Linking & Social Sharing
+let currentOpenMovieId = null;
+
+function shareCurrentMovieToWhatsApp() {
+  if (!currentOpenMovieId) return;
+  const movie = allMovies.find(m => m.id === currentOpenMovieId);
+  if (!movie) return;
+  const shareUrl = `${window.location.origin}${window.location.pathname}#movie=${encodeURIComponent(movie.id)}`;
+  const text = `🍿 Where to stream "${movie.title}" (${movie.year}) legally on Netflix, Prime & Hotstar:\n👉 ${shareUrl}`;
+  window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`, '_blank');
+}
+
+function copyCurrentMovieLink() {
+  if (!currentOpenMovieId) return;
+  const shareUrl = `${window.location.origin}${window.location.pathname}#movie=${encodeURIComponent(currentOpenMovieId)}`;
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(shareUrl).then(() => {
+      showToast('📋 Direct link copied! Share anywhere.');
+    }).catch(() => {
+      prompt('Copy this link:', shareUrl);
+    });
+  } else {
+    prompt('Copy this link:', shareUrl);
+  }
+}
+
+function checkDeepLink() {
+  const hash = window.location.hash;
+  if (hash && hash.startsWith('#movie=')) {
+    const movieId = decodeURIComponent(hash.replace('#movie=', ''));
+    setTimeout(() => {
+      openMovie(movieId);
+    }, 400);
+  }
+}
+
 // DOM Elements
 let moviesGrid, resultsCount, searchInput, clearSearchBtn, movieModal, dashboardModal, settingsModal, toast;
 
@@ -597,6 +866,9 @@ document.addEventListener('DOMContentLoaded', () => {
   initCatalog();
   setupEventListeners();
   loadHeroSpotlight();
+  updateWatchlistBadge();
+  checkDeepLink();
+  window.addEventListener('hashchange', checkDeepLink);
 });
 
 function initCatalog() {
@@ -850,6 +1122,7 @@ function renderMovies(movies) {
     }).join('');
 
     const typeBadge = movie.type === 'tv' ? '<span class="badge-type tv">TV SERIES</span>' : '<span class="badge-type movie">MOVIE</span>';
+    const isSaved = isInWatchlist(movie.id);
 
     const posterSrc = movie.poster || "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='450'%3E%3Crect fill='%231a1a2e' width='300' height='450'/%3E%3Ctext fill='%236366f1' font-family='sans-serif' font-size='48' text-anchor='middle' x='150' y='215'%3E🎬%3C/text%3E%3Ctext fill='%2394a3b8' font-family='sans-serif' font-size='13' text-anchor='middle' x='150' y='250'%3ELoading poster...%3C/text%3E%3C/svg%3E";
 
@@ -861,6 +1134,7 @@ function renderMovies(movies) {
             <span class="btn-quick-play">▶ Stream Guide</span>
           </div>
           ${typeBadge}
+          <button class="card-watchlist-btn ${isSaved ? 'active' : ''}" data-id="${movie.id}" title="${isSaved ? 'Remove from Watchlist' : 'Add to Watchlist'}" onclick="toggleWatchlist('${movie.id}', event)">${isSaved ? '★' : '☆'}</button>
           <span class="card-rating">★ ${movie.rating}</span>
         </div>
         <div class="card-body">
@@ -923,6 +1197,9 @@ function loadHeroSpotlight() {
 function openMovie(movieId) {
   const movie = allMovies.find(m => m.id === movieId);
   if (!movie) return;
+
+  currentOpenMovieId = movieId;
+  updateModalWatchlistState(movieId);
 
   document.getElementById('modalTitle').textContent = movie.title;
   document.getElementById('modalTagline').textContent = movie.tagline || '';
@@ -1017,6 +1294,12 @@ function openMovie(movieId) {
 
 // Close Modal
 function closeModal() {
+  currentOpenMovieId = null;
+  if (window.location.hash && window.location.hash.startsWith('#movie=')) {
+    try {
+      history.replaceState(null, null, window.location.pathname + window.location.search);
+    } catch (e) {}
+  }
   if (movieModal) {
     movieModal.classList.add('hidden');
     const trailerContainer = document.getElementById('trailerContainer');

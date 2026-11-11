@@ -977,7 +977,89 @@ body {
 .modal-meta-row {
   font-size: 0.88rem;
   color: var(--text-muted);
-  margin-bottom: 1rem;
+  margin-bottom: 0.85rem;
+}
+
+/* MODAL INTERACTIVE ACTION BAR */
+.modal-actions-bar {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.25rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.modal-action-btn {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  color: var(--text-main);
+  padding: 0.45rem 0.85rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  transition: var(--transition);
+}
+
+.modal-action-btn:hover {
+  background: var(--bg-card-hover);
+  border-color: var(--accent);
+  transform: translateY(-1px);
+}
+
+.modal-action-btn.active {
+  background: rgba(99, 102, 241, 0.25);
+  border-color: var(--accent);
+  color: #a5b4fc;
+}
+
+.modal-action-btn.share-whatsapp {
+  background: rgba(37, 211, 102, 0.12);
+  border-color: rgba(37, 211, 102, 0.3);
+  color: #4ade80;
+}
+
+.modal-action-btn.share-whatsapp:hover {
+  background: rgba(37, 211, 102, 0.25);
+  border-color: #25d366;
+}
+
+/* CARD QUICK WATCHLIST BUTTON */
+.card-watchlist-btn {
+  position: absolute;
+  top: 10px;
+  right: 65px;
+  background: rgba(10, 14, 23, 0.85);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--border);
+  color: #cbd5e1;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.78rem;
+  cursor: pointer;
+  z-index: 3;
+  transition: var(--transition);
+}
+
+.card-watchlist-btn:hover {
+  transform: scale(1.15);
+  background: var(--accent);
+  color: white;
+  border-color: var(--accent);
+}
+
+.card-watchlist-btn.active {
+  background: #f59e0b;
+  border-color: #f59e0b;
+  color: #000;
 }
 
 .modal-overview {
