@@ -1,0 +1,12 @@
+{
+  "name": "cinefind",
+  "version": "1.0.0",
+  "description": "CineFind - Movie & Streaming Guide with Built-in Affiliate and Ad Monetization",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "keywords": ["movies", "streaming", "affiliate", "where-to-watch", "tmdb"],
+  "author": "",
+  "license": "MIT"
+}

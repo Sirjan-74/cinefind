@@ -1,0 +1,14 @@
+{
+  "totalClicks": 14,
+  "estimatedEarnings": 28.50,
+  "clicksByProvider": {
+    "Amazon Prime Video": 7,
+    "Netflix": 4,
+    "Max": 2,
+    "Apple TV": 1
+  },
+  "recentEvents": [
+    { "provider": "Amazon Prime Video", "movie": "Dune: Part Two", "time": "2026-11-11T12:00:00Z" },
+    { "provider": "Netflix", "movie": "Spider-Man: Across the Spider-Verse", "time": "2026-11-11T11:42:00Z" }
+  ]
+}
