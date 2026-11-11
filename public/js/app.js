@@ -1168,14 +1168,32 @@ function renderMovies(movies) {
   moviesGrid.innerHTML = html;
 }
 
-// Load Hero Spotlight
+// Dynamic Auto-Rotating Hero Carousel
+const HERO_TITLES_LIST = ["ramayana-part-1", "pushpa-2", "the-penguin", "stree-2"];
+let currentHeroIndex = 0;
+let heroCarouselTimer = null;
+
+function renderHeroDots() {
+  const container = document.getElementById('heroDots');
+  if (!container) return;
+  container.innerHTML = HERO_TITLES_LIST.map((id, idx) => `
+    <span class="hero-dot ${idx === currentHeroIndex ? 'active' : ''}" onclick="setHeroIndex(${idx})"></span>
+  `).join('');
+}
+
 function loadHeroSpotlight() {
-  const top = allMovies.find(m => m.featured) || allMovies[0];
-  if (!top) return;
+  renderHeroDots();
+  const targetId = HERO_TITLES_LIST[currentHeroIndex];
+  const movie = allMovies.find(m => m.id === targetId) || allMovies[0];
+  if (!movie) return;
 
   const backdrop = document.getElementById('heroBackdrop');
-  if (backdrop && top.backdrop) {
-    backdrop.style.backgroundImage = `url('${top.backdrop}')`;
+  if (backdrop) {
+    if (movie.backdrop) {
+      backdrop.style.backgroundImage = `url('${movie.backdrop}')`;
+    } else if (movie.poster) {
+      backdrop.style.backgroundImage = `url('${movie.poster}')`;
+    }
   }
   const heroTitle = document.getElementById('heroTitle');
   const heroTagline = document.getElementById('heroTagline');
@@ -1184,13 +1202,104 @@ function loadHeroSpotlight() {
   const heroYear = document.getElementById('heroYear');
   const heroRuntime = document.getElementById('heroRuntime');
   const heroGenre = document.getElementById('heroGenre');
-  if (heroTitle) heroTitle.textContent = top.title;
-  if (heroTagline) heroTagline.textContent = top.tagline;
-  if (heroOverview) heroOverview.textContent = top.overview;
-  if (heroRating) heroRating.textContent = `★ ${top.rating}`;
-  if (heroYear) heroYear.textContent = top.year;
-  if (heroRuntime) heroRuntime.textContent = top.runtime;
-  if (heroGenre) heroGenre.textContent = top.genres ? top.genres[0] : '';
+  if (heroTitle) heroTitle.textContent = movie.title;
+  if (heroTagline) heroTagline.textContent = movie.tagline || 'Trending Blockbuster';
+  if (heroOverview) heroOverview.textContent = movie.overview;
+  if (heroRating) heroRating.textContent = `★ ${movie.rating}`;
+  if (heroYear) heroYear.textContent = movie.year;
+  if (heroRuntime) heroRuntime.textContent = movie.runtime;
+  if (heroGenre) heroGenre.textContent = movie.genres ? movie.genres[0] : 'Blockbuster';
+
+  // Attach buttons to current hero movie
+  const heroWatchBtn = document.getElementById('heroWatchBtn');
+  const heroWhereToWatchBtn = document.getElementById('heroWhereToWatchBtn');
+  if (heroWatchBtn) heroWatchBtn.onclick = () => openMovie(movie.id);
+  if (heroWhereToWatchBtn) heroWhereToWatchBtn.onclick = () => openMovie(movie.id);
+
+  startHeroAutoRotation();
+}
+
+function nextHeroSpotlight() {
+  currentHeroIndex = (currentHeroIndex + 1) % HERO_TITLES_LIST.length;
+  loadHeroSpotlight();
+}
+
+function prevHeroSpotlight() {
+  currentHeroIndex = (currentHeroIndex - 1 + HERO_TITLES_LIST.length) % HERO_TITLES_LIST.length;
+  loadHeroSpotlight();
+}
+
+function setHeroIndex(idx) {
+  currentHeroIndex = idx;
+  loadHeroSpotlight();
+}
+
+function startHeroAutoRotation() {
+  clearInterval(heroCarouselTimer);
+  heroCarouselTimer = setInterval(() => {
+    nextHeroSpotlight();
+  }, 6500);
+}
+
+// "What's Your Mood?" Filter Handler
+function selectMood(genre) {
+  currentFilter.genre = genre;
+  document.querySelectorAll('#moodFilters .mood-pill').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.genre === genre);
+  });
+  document.querySelectorAll('#genreFilters .pill').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.genre === genre);
+  });
+  applyFilters();
+  const catalog = document.getElementById('catalogSection');
+  if (catalog) catalog.scrollIntoView({ behavior: 'smooth' });
+}
+
+// "New on OTT This Weekend" Filter Handler
+function filterByWeekendOTT() {
+  currentFilter.type = 'All';
+  currentFilter.genre = 'All';
+  currentFilter.provider = 'All';
+  currentFilter.query = '';
+  document.querySelectorAll('.filter-pills .pill').forEach(p => p.classList.remove('active'));
+  const weekendPill = document.querySelector('.ott-weekend-pill');
+  if (weekendPill) weekendPill.classList.add('active');
+
+  const weekendTitles = ["pushpa-2", "bhool-bhulaiyaa-3", "singham-again", "the-penguin", "devara-part-1", "stree-2", "kalki-2898-ad"];
+  const filtered = allMovies.filter(m => weekendTitles.includes(m.id) || (m.year && m.year.includes('2024')));
+  const catTitle = document.getElementById('catalogTitle');
+  if (catTitle) catTitle.textContent = '📅 New on OTT This Weekend (Official Releases)';
+  renderMovies(filtered);
+  const catalog = document.getElementById('catalogSection');
+  if (catalog) catalog.scrollIntoView({ behavior: 'smooth' });
+}
+
+// PWA Install Prompt Handler
+let deferredPwaPrompt = null;
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  deferredPwaPrompt = e;
+  const btn = document.getElementById('installPwaBtn');
+  if (btn) btn.style.display = 'inline-flex';
+});
+
+function promptPwaInstall() {
+  if (deferredPwaPrompt) {
+    deferredPwaPrompt.prompt();
+    deferredPwaPrompt.userChoice.then((choiceResult) => {
+      if (choiceResult.outcome === 'accepted') {
+        showToast('🎉 CineFind App Installed!');
+      }
+      deferredPwaPrompt = null;
+    });
+  } else {
+    const isIos = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+    if (isIos) {
+      alert('To install CineFind on your iPhone/iPad:\n1. Tap the Share button at the bottom of Safari\n2. Tap "Add to Home Screen" 📲');
+    } else {
+      showToast('📲 Bookmark this page or tap your browser menu -> "Add to Home screen" to install.');
+    }
+  }
 }
 
 // Open Movie Details & Where to Watch Modal

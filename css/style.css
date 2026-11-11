@@ -349,6 +349,104 @@ body {
   background: rgba(255, 255, 255, 0.18);
 }
 
+/* HERO CAROUSEL CONTROLS */
+.hero-carousel-nav {
+  position: absolute;
+  bottom: 1.5rem;
+  right: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  z-index: 10;
+  background: rgba(10, 14, 23, 0.75);
+  backdrop-filter: blur(12px);
+  padding: 0.4rem 0.85rem;
+  border-radius: 9999px;
+  border: 1px solid var(--border);
+}
+
+.hero-nav-arrow {
+  background: none;
+  border: none;
+  color: #cbd5e1;
+  font-size: 1.4rem;
+  font-weight: 700;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0 0.3rem;
+  transition: var(--transition);
+}
+
+.hero-nav-arrow:hover {
+  color: white;
+  transform: scale(1.2);
+}
+
+.hero-dots {
+  display: flex;
+  gap: 0.45rem;
+  align-items: center;
+}
+
+.hero-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.hero-dot.active {
+  background: var(--accent);
+  width: 24px;
+  border-radius: 9999px;
+  box-shadow: 0 0 10px var(--accent-glow);
+}
+
+/* OTT WEEKEND & MOOD PILLS */
+.ott-weekend-pill {
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.2), rgba(217, 119, 6, 0.25)) !important;
+  border-color: rgba(245, 158, 11, 0.5) !important;
+  color: #fbbf24 !important;
+  font-weight: 700 !important;
+}
+
+.ott-weekend-pill:hover,
+.ott-weekend-pill.active {
+  background: #f59e0b !important;
+  color: #000 !important;
+  box-shadow: 0 0 14px rgba(245, 158, 11, 0.4) !important;
+}
+
+.mood-filter-group {
+  padding-bottom: 0.25rem;
+}
+
+.mood-pill {
+  font-size: 0.82rem;
+  font-weight: 600;
+  border-radius: 9999px;
+  padding: 0.4rem 0.85rem;
+  transition: var(--transition);
+}
+
+.mood-pill:hover {
+  transform: translateY(-1px);
+}
+
+.install-pwa-btn {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.18), rgba(5, 150, 105, 0.25));
+  border-color: rgba(16, 185, 129, 0.4);
+  color: #34d399;
+}
+
+.install-pwa-btn:hover {
+  background: #10b981;
+  color: #022c22;
+  box-shadow: 0 0 12px rgba(16, 185, 129, 0.4);
+}
+
 /* MONETIZATION: ADSENSE / AFFILIATE BANNERS */
 .ad-banner-container {
   margin-bottom: 2rem;
