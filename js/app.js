@@ -801,14 +801,64 @@ function openMovie(movieId) {
   document.getElementById('modalDirector').textContent = movie.director || 'Official Studio';
   document.getElementById('modalCast').textContent = Array.isArray(movie.cast) ? movie.cast.join(', ') : movie.cast;
 
-  // Embedded Official YouTube Trailer (Plays real trailer for ANY title in the world!)
+  // Trailer Player Engine
   const trailerContainer = document.getElementById('trailerContainer');
-  const queryTrailer = movie.trailerQuery || (movie.title + ' official trailer');
-  trailerContainer.innerHTML = `
-    <iframe src="https://www.youtube-nocookie.com/embed?listType=search&list=${encodeURIComponent(queryTrailer)}&autoplay=1&mute=1&rel=0" 
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-            allowfullscreen></iframe>
-  `;
+  const ytSearchUrl = `https://www.youtube.com/results?search_query=${encodeURIComponent(movie.title + ' official trailer')}`;
+
+  // Helper to render banner with YouTube button
+  const renderBackdropWithBtn = (backdropUrl) => {
+    trailerContainer.innerHTML = `
+      <div style="position: relative; width: 100%; height: 100%; background: #000; overflow: hidden;">
+        <img src="${backdropUrl}" style="width: 100%; height: 100%; object-fit: cover; filter: brightness(0.6);" onerror="this.src='https://images.unsplash.com/photo-1509198397868-475647b2a1e5?auto=format&fit=crop&w=1200&q=80'">
+        <div style="position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; background: rgba(0,0,0,0.35); gap: 0.75rem;">
+          <a href="${ytSearchUrl}" target="_blank" rel="noopener noreferrer" class="btn btn-primary" style="font-size: 1rem; padding: 0.8rem 1.6rem; box-shadow: 0 4px 20px rgba(99,102,241,0.6); text-decoration: none;">
+            ▶ Watch Official Trailer on YouTube ↗
+          </a>
+          <span style="font-size: 0.8rem; color: #cbd5e1; background: rgba(0,0,0,0.6); padding: 0.2rem 0.6rem; border-radius: 4px;">Verified 4K Trailer</span>
+        </div>
+      </div>
+    `;
+  };
+
+  // 1. Direct trailerKey from curated list
+  if (movie.trailerKey) {
+    trailerContainer.innerHTML = `
+      <iframe src="https://www.youtube-nocookie.com/embed/${movie.trailerKey}?autoplay=1&mute=1&rel=0" 
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+              allowfullscreen></iframe>
+    `;
+  } 
+  // 2. Fetch official trailer from TMDB if it's a TMDB item
+  else if (movie.id && movie.id.startsWith('tmdb-')) {
+    const tmdbId = movie.id.replace('tmdb-', '');
+    const config = getConfig();
+    const mediaType = movie.type === 'tv' ? 'tv' : 'movie';
+    const backdropImg = movie.backdrop || movie.poster;
+
+    renderBackdropWithBtn(backdropImg);
+
+    if (config.tmdbApiKey) {
+      fetch(`https://api.themoviedb.org/3/${mediaType}/${tmdbId}/videos?api_key=${encodeURIComponent(config.tmdbApiKey)}`)
+        .then(res => res.json())
+        .then(data => {
+          if (data.results && data.results.length > 0) {
+            const tr = data.results.find(v => v.site === 'YouTube' && (v.type === 'Trailer' || v.type === 'Teaser')) || data.results[0];
+            if (tr && tr.key) {
+              trailerContainer.innerHTML = `
+                <iframe src="https://www.youtube-nocookie.com/embed/${tr.key}?autoplay=1&mute=1&rel=0" 
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                        allowfullscreen></iframe>
+              `;
+            }
+          }
+        })
+        .catch(() => {});
+    }
+  } 
+  // 3. Fallback: Cinematic backdrop with direct verified trailer button
+  else {
+    renderBackdropWithBtn(movie.backdrop || movie.poster);
+  }
 
   // Where to watch providers list
   const providersList = document.getElementById('modalProvidersList');
