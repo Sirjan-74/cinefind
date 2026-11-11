@@ -1,15 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>CineFind — Where to Stream & Watch Any Movie Legally</title>
-  <meta name="description" content="Discover where to watch and stream trending blockbusters legally on Netflix, Prime Video, Max, and Apple TV.">
+  <meta name="description"
+    content="Discover where to watch and stream trending blockbusters legally on Netflix, Prime Video, Max, and Apple TV.">
   <link rel="stylesheet" href="css/style.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet">
 </head>
+
 <body>
 
   <!-- Navigation Bar -->
@@ -25,7 +29,7 @@
           <circle cx="11" cy="11" r="8"></circle>
           <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
         </svg>
-        <input type="text" id="searchInput" placeholder="Search by movie title, actor, director..." autocomplete="off">
+        <input type="text" id="searchInput" placeholder="Search ANY movie, series, actor, or show..." autocomplete="off">
         <button id="clearSearch" class="btn-clear hidden">&times;</button>
       </div>
 
@@ -51,7 +55,8 @@
         <div class="hero-badge">🔥 #1 TRENDING NOW</div>
         <h1 class="hero-title" id="heroTitle">Dune: Part Two</h1>
         <p class="hero-tagline" id="heroTagline">Long live the fighters.</p>
-        <p class="hero-overview" id="heroOverview">Follow the mythic journey of Paul Atreides as he unites with Chani and the Fremen while on a path of revenge.</p>
+        <p class="hero-overview" id="heroOverview">Follow the mythic journey of Paul Atreides as he unites with Chani
+          and the Fremen while on a path of revenge.</p>
         <div class="hero-meta">
           <span class="badge rating-badge">★ 8.6</span>
           <span class="badge year-badge">2024</span>
@@ -84,15 +89,40 @@
       </div>
     </div>
 
+    <!-- Trending Search Suggestions Bar -->
+    <div class="trending-search-bar">
+      <span class="chip-label">🔥 Trending Right Now:</span>
+      <div class="chips-container">
+        <button class="suggestion-chip" data-query="The Mentalist">The Mentalist</button>
+        <button class="suggestion-chip" data-query="Kalki 2898 AD">Kalki 2898 AD</button>
+        <button class="suggestion-chip" data-query="Breaking Bad">Breaking Bad</button>
+        <button class="suggestion-chip" data-query="Stree 2">Stree 2</button>
+        <button class="suggestion-chip" data-query="Deadpool & Wolverine">Deadpool & Wolverine</button>
+        <button class="suggestion-chip" data-query="Stranger Things">Stranger Things</button>
+        <button class="suggestion-chip" data-query="Interstellar">Interstellar</button>
+        <button class="suggestion-chip" data-query="12th Fail">12th Fail</button>
+      </div>
+    </div>
+
     <!-- Filter and Genre Navigation -->
     <section class="filters-section">
+      <div class="filter-group">
+        <span class="filter-label">Category:</span>
+        <div class="filter-pills" id="typeFilters">
+          <button class="pill active" data-type="All">All Content</button>
+          <button class="pill" data-type="movie">Movies</button>
+          <button class="pill" data-type="tv">TV Series & Shows</button>
+        </div>
+      </div>
+
       <div class="filter-group">
         <span class="filter-label">Streaming Platform:</span>
         <div class="filter-pills" id="providerFilters">
           <button class="pill active" data-provider="All">All Platforms</button>
-          <button class="pill" data-provider="Netflix">Netflix</button>
           <button class="pill" data-provider="Amazon Prime Video">Prime Video</button>
-          <button class="pill" data-provider="Max">Max</button>
+          <button class="pill" data-provider="Netflix">Netflix</button>
+          <button class="pill" data-provider="Hotstar">Disney+ Hotstar</button>
+          <button class="pill" data-provider="Jio">JioCinema</button>
           <button class="pill" data-provider="Apple TV">Apple TV</button>
         </div>
       </div>
@@ -103,9 +133,10 @@
           <button class="pill active" data-genre="All">All Genres</button>
           <button class="pill" data-genre="Action">Action</button>
           <button class="pill" data-genre="Sci-Fi">Sci-Fi</button>
+          <button class="pill" data-genre="Crime">Crime & Thriller</button>
           <button class="pill" data-genre="Drama">Drama</button>
           <button class="pill" data-genre="Comedy">Comedy</button>
-          <button class="pill" data-genre="Adventure">Adventure</button>
+          <button class="pill" data-genre="Horror">Horror</button>
         </div>
       </div>
     </section>
@@ -142,7 +173,7 @@
     <div class="modal-backdrop" onclick="closeModal()"></div>
     <div class="modal-content">
       <button class="modal-close" onclick="closeModal()">&times;</button>
-      
+
       <div class="modal-trailer-wrapper" id="trailerContainer">
         <!-- YouTube iframe injected here -->
       </div>
@@ -187,7 +218,7 @@
     <div class="modal-backdrop" onclick="closeDashboard()"></div>
     <div class="modal-content dashboard-modal">
       <button class="modal-close" onclick="closeDashboard()">&times;</button>
-      
+
       <h2>💰 CineFind Earnings & Affiliate Analytics</h2>
       <p class="subtitle">See how your website generates revenue whenever users click to stream movies.</p>
 
@@ -228,7 +259,7 @@
     <div class="modal-backdrop" onclick="closeSettings()"></div>
     <div class="modal-content settings-modal">
       <button class="modal-close" onclick="closeSettings()">&times;</button>
-      
+
       <h2>⚙️ Monetization & API Settings</h2>
       <p class="subtitle">Customize your site with your own affiliate IDs, Google AdSense, and TMDB keys.</p>
 
@@ -266,7 +297,8 @@
       <div class="footer-brand">
         <span class="brand-icon">🎬</span> CineFind
       </div>
-      <p>A 100% legal movie discovery and streaming directory. We link only to official providers including Netflix, Amazon Prime Video, Disney+, Max, and Apple TV.</p>
+      <p>A 100% legal movie discovery and streaming directory. We link only to official providers including Netflix,
+        Amazon Prime Video, Disney+, Max, and Apple TV.</p>
       <div class="footer-links">
         <span>© 2026 CineFind Media Group. All rights reserved.</span>
       </div>
@@ -275,5 +307,5 @@
 
   <script src="js/app.js"></script>
 </body>
-</html>
 
+</html>

@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CineFind — Where to Stream & Watch Any Movie Legally</title>
+  <meta name="description"
+    content="Discover where to watch and stream trending blockbusters legally on Netflix, Prime Video, Max, and Apple TV.">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet">
+</head>
+
+<body>
+
+  <!-- Navigation Bar -->
+  <header class="navbar">
+    <div class="nav-container">
+      <div class="brand" onclick="resetFilters()">
+        <span class="brand-icon">🎬</span>
+        <span class="brand-title">Cine<span class="gradient-text">Find</span></span>
+      </div>
+
+      <div class="search-box">
+        <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+        <input type="text" id="searchInput" placeholder="Search ANY movie, series, actor, or show..." autocomplete="off">
+        <button id="clearSearch" class="btn-clear hidden">&times;</button>
+      </div>
+
+      <div class="nav-actions">
+        <button class="nav-btn earnings-btn" onclick="openDashboard()">
+          <span class="pill-badge">$</span>
+          <span>Earnings & Analytics</span>
+        </button>
+        <button class="nav-btn settings-btn" onclick="openSettings()" title="Settings & Monetization Config">
+          ⚙️
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="main-content">
+
+    <!-- Hero Spotlight Section -->
+    <section id="heroSpotlight" class="hero-spotlight">
+      <div class="hero-backdrop" id="heroBackdrop"></div>
+      <div class="hero-overlay"></div>
+      <div class="hero-content">
+        <div class="hero-badge">🔥 #1 TRENDING NOW</div>
+        <h1 class="hero-title" id="heroTitle">Dune: Part Two</h1>
+        <p class="hero-tagline" id="heroTagline">Long live the fighters.</p>
+        <p class="hero-overview" id="heroOverview">Follow the mythic journey of Paul Atreides as he unites with Chani
+          and the Fremen while on a path of revenge.</p>
+        <div class="hero-meta">
+          <span class="badge rating-badge">★ 8.6</span>
+          <span class="badge year-badge">2024</span>
+          <span class="badge runtime-badge">166 min</span>
+          <span class="badge genre-badge">Sci-Fi</span>
+        </div>
+        <div class="hero-buttons">
+          <button class="btn btn-primary" id="heroWatchBtn">
+            ▶ Watch Trailer
+          </button>
+          <button class="btn btn-secondary" id="heroWhereToWatchBtn">
+            🍿 Where to Stream
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Monetization: Top Responsive AdSense / Sponsor Banner -->
+    <div class="ad-banner-container">
+      <div class="ad-card leaderboard">
+        <div class="ad-label">SPONSORED PROMOTION (Monetization Slot 1)</div>
+        <div class="ad-inner" onclick="trackAffiliateClick('Amazon Prime Video', 'Prime 30-Day Free Trial Promo')">
+          <div class="ad-deal">
+            <span class="ad-tag">🔥 EXCLUSIVE STREAMING DEAL</span>
+            <h4>Get 30 Days of Unlimited Movies on Amazon Prime Video for $0</h4>
+            <p>Stream thousands of hit movies, award-winning originals, and 4K blockbusters free.</p>
+          </div>
+          <button class="ad-cta-btn">Claim Free Trial ↗</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Trending Search Suggestions Bar -->
+    <div class="trending-search-bar">
+      <span class="chip-label">🔥 Trending Right Now:</span>
+      <div class="chips-container">
+        <button class="suggestion-chip" data-query="The Mentalist">The Mentalist</button>
+        <button class="suggestion-chip" data-query="Kalki 2898 AD">Kalki 2898 AD</button>
+        <button class="suggestion-chip" data-query="Breaking Bad">Breaking Bad</button>
+        <button class="suggestion-chip" data-query="Stree 2">Stree 2</button>
+        <button class="suggestion-chip" data-query="Deadpool & Wolverine">Deadpool & Wolverine</button>
+        <button class="suggestion-chip" data-query="Stranger Things">Stranger Things</button>
+        <button class="suggestion-chip" data-query="Interstellar">Interstellar</button>
+        <button class="suggestion-chip" data-query="12th Fail">12th Fail</button>
+      </div>
+    </div>
+
+    <!-- Filter and Genre Navigation -->
+    <section class="filters-section">
+      <div class="filter-group">
+        <span class="filter-label">Category:</span>
+        <div class="filter-pills" id="typeFilters">
+          <button class="pill active" data-type="All">All Content</button>
+          <button class="pill" data-type="movie">Movies</button>
+          <button class="pill" data-type="tv">TV Series & Shows</button>
+        </div>
+      </div>
+
+      <div class="filter-group">
+        <span class="filter-label">Streaming Platform:</span>
+        <div class="filter-pills" id="providerFilters">
+          <button class="pill active" data-provider="All">All Platforms</button>
+          <button class="pill" data-provider="Amazon Prime Video">Prime Video</button>
+          <button class="pill" data-provider="Netflix">Netflix</button>
+          <button class="pill" data-provider="Hotstar">Disney+ Hotstar</button>
+          <button class="pill" data-provider="Jio">JioCinema</button>
+          <button class="pill" data-provider="Apple TV">Apple TV</button>
+        </div>
+      </div>
+
+      <div class="filter-group">
+        <span class="filter-label">Genre:</span>
+        <div class="filter-pills" id="genreFilters">
+          <button class="pill active" data-genre="All">All Genres</button>
+          <button class="pill" data-genre="Action">Action</button>
+          <button class="pill" data-genre="Sci-Fi">Sci-Fi</button>
+          <button class="pill" data-genre="Crime">Crime & Thriller</button>
+          <button class="pill" data-genre="Drama">Drama</button>
+          <button class="pill" data-genre="Comedy">Comedy</button>
+          <button class="pill" data-genre="Horror">Horror</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Movie Catalog Grid -->
+    <section class="catalog-section">
+      <div class="section-header">
+        <h2 id="catalogTitle">Popular Movies to Stream</h2>
+        <span id="resultsCount" class="results-count">Showing 8 titles</span>
+      </div>
+
+      <div id="moviesGrid" class="movies-grid">
+        <!-- Rendered dynamically by app.js -->
+      </div>
+    </section>
+
+    <!-- Value Proposition Banner for Traffic Growth -->
+    <section class="newsletter-section">
+      <div class="newsletter-card">
+        <h3>Never Miss When Blockbusters Hit Streaming</h3>
+        <p>Get instant alerts when top cinema releases become available on Netflix, Prime, and Max.</p>
+        <form class="newsletter-form" onsubmit="handleNewsletter(event)">
+          <input type="email" id="newsletterEmail" placeholder="Enter your email" required>
+          <button type="submit" class="btn btn-primary">Get Alerts Free</button>
+        </form>
+        <span class="form-notice">🔒 100% free. No spam. Unsubscribe anytime.</span>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Movie Details & Where to Watch Modal -->
+  <div id="movieModal" class="modal hidden">
+    <div class="modal-backdrop" onclick="closeModal()"></div>
+    <div class="modal-content">
+      <button class="modal-close" onclick="closeModal()">&times;</button>
+
+      <div class="modal-trailer-wrapper" id="trailerContainer">
+        <!-- YouTube iframe injected here -->
+      </div>
+
+      <div class="modal-body">
+        <div class="modal-header-row">
+          <div>
+            <h2 id="modalTitle" class="modal-title"></h2>
+            <p id="modalTagline" class="modal-tagline"></p>
+          </div>
+          <div class="modal-rating-badge" id="modalRating">★ 8.5</div>
+        </div>
+
+        <div class="modal-meta-row">
+          <span id="modalYear"></span> • <span id="modalRuntime"></span> • <span id="modalGenres"></span>
+        </div>
+
+        <p id="modalOverview" class="modal-overview"></p>
+
+        <div class="modal-credits">
+          <p><strong>Director:</strong> <span id="modalDirector"></span></p>
+          <p><strong>Cast:</strong> <span id="modalCast"></span></p>
+        </div>
+
+        <!-- WHERE TO WATCH SECTION (PRIMARY MONETIZATION) -->
+        <div class="where-to-watch-box">
+          <div class="wtw-header">
+            <h4>🍿 Official Where to Watch & Stream</h4>
+            <span class="wtw-sub">Click to watch on official verified platforms:</span>
+          </div>
+
+          <div id="modalProvidersList" class="providers-list">
+            <!-- Injected dynamically -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Earnings & Monetization Dashboard Modal -->
+  <div id="dashboardModal" class="modal hidden">
+    <div class="modal-backdrop" onclick="closeDashboard()"></div>
+    <div class="modal-content dashboard-modal">
+      <button class="modal-close" onclick="closeDashboard()">&times;</button>
+
+      <h2>💰 CineFind Earnings & Affiliate Analytics</h2>
+      <p class="subtitle">See how your website generates revenue whenever users click to stream movies.</p>
+
+      <div class="stats-cards">
+        <div class="stat-card">
+          <span class="stat-icon">👆</span>
+          <span class="stat-num" id="statClicks">0</span>
+          <span class="stat-label">Affiliate Stream Clicks</span>
+        </div>
+        <div class="stat-card highlight">
+          <span class="stat-icon">💵</span>
+          <span class="stat-num" id="statEarnings">$0.00</span>
+          <span class="stat-label">Estimated Affiliate Earnings</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-icon">📈</span>
+          <span class="stat-num">~12.4%</span>
+          <span class="stat-label">Conversion Rate</span>
+        </div>
+      </div>
+
+      <div class="dashboard-details">
+        <h3>Clicks by Streaming Partner</h3>
+        <div id="providerClicksTable" class="provider-clicks-list">
+          <!-- Dynamically populated -->
+        </div>
+
+        <h3 style="margin-top: 1.5rem;">Recent User Stream Actions</h3>
+        <div id="recentClicksList" class="recent-clicks-list">
+          <!-- Dynamically populated -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Settings Modal (AdSense & TMDB API Key) -->
+  <div id="settingsModal" class="modal hidden">
+    <div class="modal-backdrop" onclick="closeSettings()"></div>
+    <div class="modal-content settings-modal">
+      <button class="modal-close" onclick="closeSettings()">&times;</button>
+
+      <h2>⚙️ Monetization & API Settings</h2>
+      <p class="subtitle">Customize your site with your own affiliate IDs, Google AdSense, and TMDB keys.</p>
+
+      <form id="settingsForm" onsubmit="saveSettings(event)">
+        <div class="form-group">
+          <label>Google AdSense Publisher ID</label>
+          <input type="text" id="adsenseInput" placeholder="ca-pub-XXXXXXXXXXXXXXXX">
+          <small>Allows you to display official Google ads and get paid per 1,000 page views.</small>
+        </div>
+
+        <div class="form-group">
+          <label>Amazon Associates Affiliate Tag</label>
+          <input type="text" id="amazonTagInput" placeholder="yourtag-20">
+          <small>Earns you 4%–10% commission on video rentals and Prime Video signups.</small>
+        </div>
+
+        <div class="form-group">
+          <label>TMDB (The Movie Database) Free API Key (Optional)</label>
+          <input type="text" id="tmdbKeyInput" placeholder="Optional: Paste TMDB v3 API Key">
+          <small>Enables real-time searching of over 800,000+ movies worldwide.</small>
+        </div>
+
+        <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">
+          Save Settings
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Notification Toast -->
+  <div id="toast" class="toast hidden"></div>
+
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-brand">
+        <span class="brand-icon">🎬</span> CineFind
+      </div>
+      <p>A 100% legal movie discovery and streaming directory. We link only to official providers including Netflix,
+        Amazon Prime Video, Disney+, Max, and Apple TV.</p>
+      <div class="footer-links">
+        <span>© 2026 CineFind Media Group. All rights reserved.</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/app.js"></script>
+</body>
+
+</html>
