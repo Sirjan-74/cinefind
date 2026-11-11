@@ -355,12 +355,58 @@ const CURATED_TITLES = [
   }
 ];
 
-// Universal Search Engines (queries open Apple + TVMaze APIs for ANY title worldwide)
+// Universal Search Engines (queries TMDB + Apple + TVMaze APIs for ANY title worldwide)
 async function searchWorldwideMoviesAndShows(query) {
   const results = [];
   const cleanQ = query.trim().toLowerCase();
+  const config = getConfig();
 
-  // 1. Check TVMaze (Super fast for TV Shows like "The Mentalist", "Game of Thrones", etc.)
+  // 1. Check TMDB if user configured their free API key
+  if (config.tmdbApiKey) {
+    try {
+      const tmdbRes = await fetch(`https://api.themoviedb.org/3/search/multi?api_key=${encodeURIComponent(config.tmdbApiKey)}&query=${encodeURIComponent(cleanQ)}&include_adult=false`);
+      const tmdbData = await tmdbRes.json();
+      if (tmdbData.results && Array.isArray(tmdbData.results)) {
+        tmdbData.results.slice(0, 10).forEach(item => {
+          if (item.media_type !== 'movie' && item.media_type !== 'tv') return;
+          const isTv = item.media_type === 'tv';
+          const title = isTv ? item.name : item.title;
+          if (!title) return;
+
+          const poster = item.poster_path ? `https://image.tmdb.org/t/p/w500${item.poster_path}` : 'https://images.unsplash.com/photo-1536440136628-849c177e76a1?auto=format&fit=crop&w=600&q=80';
+          const backdrop = item.backdrop_path ? `https://image.tmdb.org/t/p/w1280${item.backdrop_path}` : poster;
+          const releaseYear = (isTv ? item.first_air_date : item.release_date)?.substring(0, 4) || 'Recent';
+
+          results.push({
+            id: 'tmdb-' + item.id,
+            title: title,
+            type: isTv ? 'tv' : 'movie',
+            year: releaseYear,
+            rating: item.vote_average ? +item.vote_average.toFixed(1) : 8.0,
+            runtime: isTv ? 'Series' : '120 min',
+            genres: isTv ? ['TV Series'] : ['Cinema'],
+            tagline: 'Stream on official verified platforms.',
+            overview: item.overview || 'Click to view official streaming and rental platforms.',
+            poster: poster,
+            backdrop: backdrop,
+            trailerQuery: title + ' official trailer',
+            director: 'Official Studio',
+            cast: ['Featured Cast'],
+            providers: [
+              { name: "Amazon Prime Video", type: "Subscription", badge: "Watch on Prime", price: "Stream", url: "https://www.amazon.com/gp/video/storefront", isAffiliate: true },
+              { name: "Apple TV", type: "Rent", badge: "Stream / Rent", price: "Rent", url: "https://tv.apple.com", isAffiliate: true }
+            ],
+            trending: false,
+            featured: false
+          });
+        });
+      }
+    } catch (e) {
+      console.warn('TMDB search fallback error (using global open mirrors):', e);
+    }
+  }
+
+  // 2. Check TVMaze (Super fast for TV Shows like "The Mentalist", "Game of Thrones", etc.)
   try {
     const tvRes = await fetch(`https://api.tvmaze.com/search/shows?q=${encodeURIComponent(cleanQ)}`);
     const tvData = await tvRes.json();
