@@ -10,12 +10,22 @@ let currentFilter = {
   query: ''
 };
 
-// Default Configuration (Can be customized via Settings Modal)
+// Default Configuration (Permanently baked in with user credentials)
 const DEFAULT_CONFIG = {
   amazonAffiliateTag: 'cinefind69-20',
   adsensePublisherId: '',
-  tmdbApiKey: ''
+  tmdbApiKey: '380064d51a011d5f37501eba3ab798dc'
 };
+
+function filterByType(type) {
+  currentFilter.type = type;
+  document.querySelectorAll('#typeFilters .pill').forEach(p => {
+    p.classList.toggle('active', p.dataset.type === type);
+  });
+  applyFilters();
+  const catalog = document.getElementById('catalogSection');
+  if (catalog) catalog.scrollIntoView({ behavior: 'smooth' });
+}
 
 // Get Config from localStorage or defaults
 function getConfig() {

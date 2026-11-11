@@ -33,14 +33,10 @@
         <button id="clearSearch" class="btn-clear hidden">&times;</button>
       </div>
 
-      <div class="nav-actions">
-        <button class="nav-btn earnings-btn" onclick="openDashboard()">
-          <span class="pill-badge">$</span>
-          <span>Earnings & Analytics</span>
-        </button>
-        <button class="nav-btn settings-btn" onclick="openSettings()" title="Settings & Monetization Config">
-          ⚙️
-        </button>
+      <div class="nav-links">
+        <button class="nav-link-btn" onclick="resetFilters()">🍿 Discover</button>
+        <button class="nav-link-btn" onclick="filterByType('movie')">🎬 Movies</button>
+        <button class="nav-link-btn" onclick="filterByType('tv')">📺 TV Series</button>
       </div>
     </div>
   </header>
@@ -142,7 +138,7 @@
     </section>
 
     <!-- Movie Catalog Grid -->
-    <section class="catalog-section">
+    <section class="catalog-section" id="catalogSection">
       <div class="section-header">
         <h2 id="catalogTitle">Popular Movies to Stream</h2>
         <span id="resultsCount" class="results-count">Showing 8 titles</span>
@@ -301,6 +297,8 @@
         Amazon Prime Video, Disney+, Max, and Apple TV.</p>
       <div class="footer-links">
         <span>© 2026 CineFind Media Group. All rights reserved.</span>
+        <span class="footer-dot">•</span>
+        <a href="javascript:void(0)" onclick="openDashboard()" class="footer-owner-link">🔒 Owner Portal</a>
       </div>
     </div>
   </footer>
