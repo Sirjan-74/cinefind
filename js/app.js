@@ -388,18 +388,43 @@ const CURATED_TITLES = [
 ];
 
 // Universal Search Engines (queries TMDB + Apple + TVMaze APIs for ANY title worldwide)
+// TMDB is the primary source; TVMaze and iTunes are supplementary
 async function searchWorldwideMoviesAndShows(query) {
-  const results = [];
+  const tmdbResults = [];
+  const supplementaryResults = [];
   const cleanQ = query.trim().toLowerCase();
+  const queryWords = cleanQ.split(/\s+/).filter(w => w.length >= 2);
   const config = getConfig();
 
-  // 1. Check TMDB if user configured their free API key
+  // Helper: check if a title is relevant to the search query
+  function isRelevant(title) {
+    const t = title.toLowerCase();
+    // At least one query word must appear in the title
+    return queryWords.some(word => t.includes(word));
+  }
+
+  // Helper: relevance score (higher = better match)
+  function relevanceScore(title) {
+    const t = title.toLowerCase();
+    let score = 0;
+    // Full query match
+    if (t.includes(cleanQ)) score += 100;
+    // Each matching word
+    queryWords.forEach(word => { if (t.includes(word)) score += 10; });
+    // Title starts with query
+    if (t.startsWith(cleanQ)) score += 50;
+    // Exact match
+    if (t === cleanQ) score += 200;
+    return score;
+  }
+
+  // 1. TMDB — Primary search engine (most comprehensive movie database)
   if (config.tmdbApiKey) {
     try {
       const tmdbRes = await fetch(`https://api.themoviedb.org/3/search/multi?api_key=${encodeURIComponent(config.tmdbApiKey)}&query=${encodeURIComponent(cleanQ)}&include_adult=false`);
       const tmdbData = await tmdbRes.json();
       if (tmdbData.results && Array.isArray(tmdbData.results)) {
-        tmdbData.results.slice(0, 10).forEach(item => {
+        tmdbData.results.slice(0, 12).forEach(item => {
           if (item.media_type !== 'movie' && item.media_type !== 'tv') return;
           const isTv = item.media_type === 'tv';
           const title = isTv ? item.name : item.title;
@@ -409,15 +434,19 @@ async function searchWorldwideMoviesAndShows(query) {
           const backdrop = item.backdrop_path ? `https://image.tmdb.org/t/p/w1280${item.backdrop_path}` : poster;
           const releaseYear = (isTv ? item.first_air_date : item.release_date)?.substring(0, 4) || 'Recent';
 
-          results.push({
+          // Get genres from TMDB genre IDs
+          const genreMap = {28:'Action',12:'Adventure',16:'Animation',35:'Comedy',80:'Crime',99:'Documentary',18:'Drama',10751:'Family',14:'Fantasy',36:'History',27:'Horror',10402:'Music',9648:'Mystery',10749:'Romance',878:'Sci-Fi',10770:'TV Movie',53:'Thriller',10752:'War',37:'Western',10759:'Action & Adventure',10762:'Kids',10763:'News',10764:'Reality',10765:'Sci-Fi & Fantasy',10766:'Soap',10767:'Talk',10768:'War & Politics'};
+          const genres = item.genre_ids?.map(id => genreMap[id]).filter(Boolean).slice(0, 3) || (isTv ? ['TV Series'] : ['Cinema']);
+
+          tmdbResults.push({
             id: 'tmdb-' + item.id,
             title: title,
             type: isTv ? 'tv' : 'movie',
             year: releaseYear,
-            rating: item.vote_average ? +item.vote_average.toFixed(1) : 8.0,
-            runtime: isTv ? 'Series' : '120 min',
-            genres: isTv ? ['TV Series'] : ['Cinema'],
-            tagline: 'Stream on official verified platforms.',
+            rating: item.vote_average ? +item.vote_average.toFixed(1) : 0,
+            runtime: isTv ? 'Series' : '~120 min',
+            genres: genres.length > 0 ? genres : (isTv ? ['TV Series'] : ['Cinema']),
+            tagline: item.vote_average >= 7 ? 'Highly rated on TMDB.' : 'Available on legal streaming platforms.',
             overview: item.overview || 'Click to view official streaming and rental platforms.',
             poster: poster,
             backdrop: backdrop,
@@ -426,105 +455,118 @@ async function searchWorldwideMoviesAndShows(query) {
             cast: ['Featured Cast'],
             providers: [
               { name: "Amazon Prime Video", type: "Subscription", badge: "Watch on Prime", price: "Stream", url: "https://www.amazon.com/gp/video/storefront", isAffiliate: true },
+              { name: "Netflix", type: "Subscription", badge: "Check Availability", price: "Stream", url: "https://www.netflix.com/search?q=" + encodeURIComponent(title), isAffiliate: false },
               { name: "Apple TV", type: "Rent", badge: "Stream / Rent", price: "Rent", url: "https://tv.apple.com", isAffiliate: true }
             ],
             trending: false,
-            featured: false
+            featured: false,
+            _relevance: relevanceScore(title) + (item.popularity || 0)
           });
         });
       }
     } catch (e) {
-      console.warn('TMDB search fallback error (using global open mirrors):', e);
+      console.warn('TMDB search error:', e);
     }
   }
 
-  // 2. Check TVMaze (Super fast for TV Shows like "The Mentalist", "Game of Thrones", etc.)
-  try {
-    const tvRes = await fetch(`https://api.tvmaze.com/search/shows?q=${encodeURIComponent(cleanQ)}`);
-    const tvData = await tvRes.json();
-    if (Array.isArray(tvData)) {
-      tvData.slice(0, 8).forEach(item => {
-        const show = item.show;
-        if (!show) return;
-        const posterImg = show.image?.original || show.image?.medium || null;
+  // 2. TVMaze — Supplementary for TV shows only (skip if TMDB already found plenty)
+  if (tmdbResults.filter(r => r.type === 'tv').length < 3) {
+    try {
+      const tvRes = await fetch(`https://api.tvmaze.com/search/shows?q=${encodeURIComponent(cleanQ)}`);
+      const tvData = await tvRes.json();
+      if (Array.isArray(tvData)) {
+        tvData.slice(0, 5).forEach(item => {
+          const show = item.show;
+          if (!show || !show.name) return;
+          // Only add if relevant AND not already found by TMDB
+          if (!isRelevant(show.name)) return;
+          if (tmdbResults.some(r => r.title.toLowerCase() === show.name.toLowerCase())) return;
 
-        // Strip HTML from summary
-        const div = document.createElement('div');
-        div.innerHTML = show.summary || 'Click to view official streaming and rental platforms.';
-        const cleanSummary = div.textContent || div.innerText || '';
+          const posterImg = show.image?.original || show.image?.medium || null;
+          const div = document.createElement('div');
+          div.innerHTML = show.summary || '';
+          const cleanSummary = div.textContent || div.innerText || 'Available on legal streaming platforms.';
 
-        results.push({
-          id: 'tvmaze-' + show.id,
-          title: show.name,
-          type: 'tv',
-          year: show.premiered ? show.premiered.substring(0, 4) : 'TV Series',
-          rating: show.rating?.average || 8.0,
-          runtime: (show.runtime ? show.runtime + ' min/ep' : 'Series'),
-          genres: show.genres?.length ? show.genres : ['Drama'],
-          tagline: 'Stream on official verified platforms.',
-          overview: cleanSummary,
-          poster: posterImg,
-          backdrop: posterImg,
-          trailerQuery: show.name + ' official trailer',
-          director: show.network?.name || 'Network Series',
-          cast: ['Featured Cast'],
-          providers: [
-            { name: "Amazon Prime Video", type: "Subscription", badge: "Watch on Prime", price: "Included with Prime", url: "https://www.amazon.com/gp/video/storefront", isAffiliate: true },
-            { name: "Apple TV", type: "Rent", badge: "Stream / Buy", price: "Rent", url: "https://tv.apple.com", isAffiliate: true }
-          ],
-          trending: false,
-          featured: false
+          supplementaryResults.push({
+            id: 'tvmaze-' + show.id,
+            title: show.name,
+            type: 'tv',
+            year: show.premiered ? show.premiered.substring(0, 4) : 'TV Series',
+            rating: show.rating?.average || 0,
+            runtime: (show.runtime ? show.runtime + ' min/ep' : 'Series'),
+            genres: show.genres?.length ? show.genres : ['Drama'],
+            tagline: 'Stream on official verified platforms.',
+            overview: cleanSummary,
+            poster: posterImg,
+            backdrop: posterImg,
+            trailerQuery: show.name + ' official trailer',
+            director: show.network?.name || 'Network Series',
+            cast: ['Featured Cast'],
+            providers: [
+              { name: "Amazon Prime Video", type: "Subscription", badge: "Watch on Prime", price: "Included with Prime", url: "https://www.amazon.com/gp/video/storefront", isAffiliate: true },
+              { name: "Apple TV", type: "Rent", badge: "Stream / Buy", price: "Rent", url: "https://tv.apple.com", isAffiliate: true }
+            ],
+            trending: false,
+            featured: false,
+            _relevance: relevanceScore(show.name) + (item.score || 0)
+          });
         });
-      });
+      }
+    } catch (e) {
+      console.warn('TVMaze search error:', e);
     }
-  } catch (e) {
-    console.warn('TVMaze search fallback error:', e);
   }
 
-  // 2. Query Apple Global Movie & TV API (Millions of titles worldwide)
-  try {
-    const appleRes = await fetch(`https://itunes.apple.com/search?term=${encodeURIComponent(cleanQ)}&media=all&limit=15`);
-    const appleData = await appleRes.json();
-    if (appleData.results && Array.isArray(appleData.results)) {
-      appleData.results.forEach(item => {
-        const title = item.trackName || item.collectionName;
-        if (!title) return;
+  // 3. Apple iTunes — Supplementary (only if TMDB found few results, and only relevant matches)
+  if (tmdbResults.length < 5) {
+    try {
+      const appleRes = await fetch(`https://itunes.apple.com/search?term=${encodeURIComponent(cleanQ)}&media=movie&limit=8`);
+      const appleData = await appleRes.json();
+      if (appleData.results && Array.isArray(appleData.results)) {
+        appleData.results.forEach(item => {
+          const title = item.trackName || item.collectionName;
+          if (!title) return;
+          // Only add if relevant AND not a duplicate
+          if (!isRelevant(title)) return;
+          if (tmdbResults.some(r => r.title.toLowerCase() === title.toLowerCase())) return;
+          if (supplementaryResults.some(r => r.title.toLowerCase() === title.toLowerCase())) return;
 
-        // Skip duplicates already found by TVMaze
-        if (results.some(r => r.title.toLowerCase() === title.toLowerCase())) return;
+          const posterHd = item.artworkUrl100 ? item.artworkUrl100.replace('100x100bb', '600x600bb') : null;
 
-        const isTv = item.wrapperType === 'track' && item.kind === 'tv-episode' || item.collectionType === 'TV Season';
-        const posterHd = item.artworkUrl100 ? item.artworkUrl100.replace('100x100bb', '600x600bb') : null;
-
-        results.push({
-          id: 'itunes-' + (item.trackId || item.collectionId || Math.random()),
-          title: title,
-          type: isTv ? 'tv' : 'movie',
-          year: item.releaseDate ? new Date(item.releaseDate).getFullYear() : 'Recent',
-          rating: 8.1,
-          runtime: item.trackTimeMillis ? Math.round(item.trackTimeMillis / 60000) + ' min' : (isTv ? 'TV Series' : '120 min'),
-          genres: [item.primaryGenreName || 'Cinema'],
-          tagline: 'Available on legal streaming platforms.',
-          overview: item.longDescription || item.shortDescription || 'Watch on official verified streaming providers.',
-          poster: posterHd,
-          backdrop: posterHd,
-          trailerQuery: title + ' official trailer',
-          director: item.artistName || 'Studio Production',
-          cast: ['Starring Cast'],
-          providers: [
-            { name: "Amazon Prime Video", type: "Rent", badge: "Rent / Buy on Prime", price: "Stream", url: "https://www.amazon.com/gp/video/storefront", isAffiliate: true },
-            { name: "Apple TV", type: "Rent", badge: "Stream in HD", price: "Rent", url: item.trackViewUrl || "https://tv.apple.com", isAffiliate: true }
-          ],
-          trending: false,
-          featured: false
+          supplementaryResults.push({
+            id: 'itunes-' + (item.trackId || item.collectionId || Math.random()),
+            title: title,
+            type: 'movie',
+            year: item.releaseDate ? new Date(item.releaseDate).getFullYear() : 'Recent',
+            rating: 0,
+            runtime: item.trackTimeMillis ? Math.round(item.trackTimeMillis / 60000) + ' min' : '120 min',
+            genres: [item.primaryGenreName || 'Cinema'],
+            tagline: 'Available on legal streaming platforms.',
+            overview: item.longDescription || item.shortDescription || 'Watch on official verified streaming providers.',
+            poster: posterHd,
+            backdrop: posterHd,
+            trailerQuery: title + ' official trailer',
+            director: item.artistName || 'Studio Production',
+            cast: ['Starring Cast'],
+            providers: [
+              { name: "Amazon Prime Video", type: "Rent", badge: "Rent / Buy on Prime", price: "Stream", url: "https://www.amazon.com/gp/video/storefront", isAffiliate: true },
+              { name: "Apple TV", type: "Rent", badge: "Stream in HD", price: "Rent", url: item.trackViewUrl || "https://tv.apple.com", isAffiliate: true }
+            ],
+            trending: false,
+            featured: false,
+            _relevance: relevanceScore(title)
+          });
         });
-      });
+      }
+    } catch (e) {
+      console.warn('Apple search error:', e);
     }
-  } catch (e) {
-    console.warn('Apple search fallback error:', e);
   }
 
-  return results;
+  // Combine: TMDB results first (sorted by relevance), then supplementary
+  const allResults = [...tmdbResults, ...supplementaryResults];
+  allResults.sort((a, b) => (b._relevance || 0) - (a._relevance || 0));
+  return allResults;
 }
 
 // Helper: Build Amazon Affiliate Link with User's Tag
