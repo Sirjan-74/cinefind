@@ -235,9 +235,9 @@ body {
 .hero-backdrop {
   position: absolute;
   inset: 0;
-  background-image: url('https://images.unsplash.com/photo-1509198397868-475647b2a1e5?auto=format&fit=crop&w=1200&q=80');
   background-size: cover;
   background-position: center;
+  background-color: #0f1724;
   filter: brightness(0.7);
   transition: transform 0.5s ease;
 }
@@ -356,7 +356,7 @@ body {
 
 .ad-card.leaderboard {
   background: linear-gradient(135deg, rgba(30, 41, 59, 0.7), rgba(15, 23, 42, 0.9));
-  border: 1px dashed rgba(99, 102, 241, 0.4);
+  border: 1px solid rgba(99, 102, 241, 0.25);
   border-radius: var(--radius-md);
   padding: 1.25rem;
   position: relative;
@@ -802,7 +802,7 @@ body {
 /* NATIVE IN-FEED AD CARD */
 .native-ad-card {
   background: linear-gradient(145deg, #1e1b4b, #182234);
-  border: 1px dashed #6366f1;
+  border: 1px solid rgba(99, 102, 241, 0.3);
   border-radius: var(--radius-md);
   padding: 1.5rem;
   display: flex;

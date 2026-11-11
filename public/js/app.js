@@ -405,7 +405,7 @@ async function searchWorldwideMoviesAndShows(query) {
           const title = isTv ? item.name : item.title;
           if (!title) return;
 
-          const poster = item.poster_path ? `https://image.tmdb.org/t/p/w500${item.poster_path}` : 'https://images.unsplash.com/photo-1536440136628-849c177e76a1?auto=format&fit=crop&w=600&q=80';
+          const poster = item.poster_path ? `https://image.tmdb.org/t/p/w500${item.poster_path}` : null;
           const backdrop = item.backdrop_path ? `https://image.tmdb.org/t/p/w1280${item.backdrop_path}` : poster;
           const releaseYear = (isTv ? item.first_air_date : item.release_date)?.substring(0, 4) || 'Recent';
 
@@ -446,7 +446,7 @@ async function searchWorldwideMoviesAndShows(query) {
       tvData.slice(0, 8).forEach(item => {
         const show = item.show;
         if (!show) return;
-        const posterImg = show.image?.original || show.image?.medium || 'https://images.unsplash.com/photo-1509281373149-e957c6296406?auto=format&fit=crop&w=600&q=80';
+        const posterImg = show.image?.original || show.image?.medium || null;
 
         // Strip HTML from summary
         const div = document.createElement('div');
@@ -494,7 +494,7 @@ async function searchWorldwideMoviesAndShows(query) {
         if (results.some(r => r.title.toLowerCase() === title.toLowerCase())) return;
 
         const isTv = item.wrapperType === 'track' && item.kind === 'tv-episode' || item.collectionType === 'TV Season';
-        const posterHd = item.artworkUrl100 ? item.artworkUrl100.replace('100x100bb', '600x600bb') : 'https://images.unsplash.com/photo-1536440136628-849c177e76a1?auto=format&fit=crop&w=600&q=80';
+        const posterHd = item.artworkUrl100 ? item.artworkUrl100.replace('100x100bb', '600x600bb') : null;
 
         results.push({
           id: 'itunes-' + (item.trackId || item.collectionId || Math.random()),
@@ -812,7 +812,7 @@ function renderMovies(movies) {
     html += `
       <div class="movie-card" onclick="openMovie('${movie.id}')">
         <div class="card-poster">
-          <img src="${movie.poster}" alt="${movie.title}" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1536440136628-849c177e76a1?auto=format&fit=crop&w=600&q=80'">
+          <img src="${movie.poster}" alt="${movie.title}" loading="lazy" onerror="this.onerror=null;this.style.objectFit='contain';this.style.padding='2rem';this.style.background='#1a1a2e';this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22300%22 height=%22450%22><rect fill=%22%231a1a2e%22 width=%22300%22 height=%22450%22/><text fill=%22%236366f1%22 font-family=%22sans-serif%22 font-size=%2224%22 text-anchor=%22middle%22 x=%22150%22 y=%22220%22>🎬</text><text fill=%22%2394a3b8%22 font-family=%22sans-serif%22 font-size=%2214%22 text-anchor=%22middle%22 x=%22150%22 y=%22250%22>Loading...</text></svg>'">
           <div class="poster-overlay">
             <span class="btn-quick-play">▶ Stream Guide</span>
           </div>
@@ -862,9 +862,17 @@ function loadHeroSpotlight() {
   const heroTitle = document.getElementById('heroTitle');
   const heroTagline = document.getElementById('heroTagline');
   const heroOverview = document.getElementById('heroOverview');
+  const heroRating = document.getElementById('heroRating');
+  const heroYear = document.getElementById('heroYear');
+  const heroRuntime = document.getElementById('heroRuntime');
+  const heroGenre = document.getElementById('heroGenre');
   if (heroTitle) heroTitle.textContent = top.title;
   if (heroTagline) heroTagline.textContent = top.tagline;
   if (heroOverview) heroOverview.textContent = top.overview;
+  if (heroRating) heroRating.textContent = `★ ${top.rating}`;
+  if (heroYear) heroYear.textContent = top.year;
+  if (heroRuntime) heroRuntime.textContent = top.runtime;
+  if (heroGenre) heroGenre.textContent = top.genres ? top.genres[0] : '';
 }
 
 // Open Movie Details & Where to Watch Modal
@@ -890,7 +898,7 @@ function openMovie(movieId) {
   const renderBackdropWithBtn = (backdropUrl) => {
     trailerContainer.innerHTML = `
       <div style="position: relative; width: 100%; height: 100%; background: #000; overflow: hidden;">
-        <img src="${backdropUrl}" style="width: 100%; height: 100%; object-fit: cover; filter: brightness(0.6);" onerror="this.src='https://images.unsplash.com/photo-1509198397868-475647b2a1e5?auto=format&fit=crop&w=1200&q=80'">
+        <img src="${backdropUrl}" style="width: 100%; height: 100%; object-fit: cover; filter: brightness(0.6);" onerror="this.onerror=null;this.style.display='none'">
         <div style="position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; background: rgba(0,0,0,0.35); gap: 0.75rem;">
           <a href="${ytSearchUrl}" target="_blank" rel="noopener noreferrer" class="btn btn-primary" style="font-size: 1rem; padding: 0.8rem 1.6rem; box-shadow: 0 4px 20px rgba(99,102,241,0.6); text-decoration: none;">
             ▶ Watch Official Trailer on YouTube ↗
