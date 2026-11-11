@@ -32,7 +32,7 @@ function getConfig() {
   try {
     const saved = localStorage.getItem('cinefind_config');
     if (saved) return { ...DEFAULT_CONFIG, ...JSON.parse(saved) };
-  } catch (e) {}
+  } catch (e) { }
   return DEFAULT_CONFIG;
 }
 
@@ -50,7 +50,7 @@ function getAnalytics() {
   try {
     const saved = localStorage.getItem('cinefind_analytics');
     if (saved) return JSON.parse(saved);
-  } catch (e) {}
+  } catch (e) { }
   return {
     totalClicks: 32,
     estimatedEarnings: 56.00,
@@ -72,7 +72,7 @@ function recordClick(provider, movieTitle) {
   const analytics = getAnalytics();
   analytics.totalClicks = (analytics.totalClicks || 0) + 1;
   analytics.estimatedEarnings = +(analytics.estimatedEarnings + 1.75).toFixed(2);
-  
+
   if (!analytics.clicksByProvider) analytics.clicksByProvider = {};
   analytics.clicksByProvider[provider] = (analytics.clicksByProvider[provider] || 0) + 1;
 
@@ -86,7 +86,7 @@ function recordClick(provider, movieTitle) {
 
   try {
     localStorage.setItem('cinefind_analytics', JSON.stringify(analytics));
-  } catch (e) {}
+  } catch (e) { }
 
   // Also try backend if available
   try {
@@ -94,12 +94,34 @@ function recordClick(provider, movieTitle) {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ provider, movieTitle })
-    }).catch(() => {});
-  } catch (e) {}
+    }).catch(() => { });
+  } catch (e) { }
 }
 
 // Built-in Curated Catalog (Bollywood & Hollywood Blockbusters + Hit TV Series)
 const CURATED_TITLES = [
+  {
+    id: "ramayana-part-1",
+    title: "Ramayana: Part 1",
+    type: "movie",
+    year: "2026 (Diwali)",
+    rating: 9.2,
+    runtime: "3h 15m • Upcoming Epic",
+    genres: ["Action", "Mythology", "Drama", "Fantasy"],
+    tagline: "Rise of a Legend.",
+    overview: "A landmark two-part cinematic adaptation of the timeless Hindu epic Ramayana, directed by Nitesh Tiwari and produced by Namit Malhotra. Starring Ranbir Kapoor as Lord Rama, Sai Pallavi as Sita, and Yash as Ravana in a monumental visual spectacle.",
+    poster: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=600&q=80",
+    backdrop: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1200&q=80",
+    trailerQuery: "Ramayana Ranbir Kapoor official announcement trailer",
+    director: "Nitesh Tiwari",
+    cast: ["Ranbir Kapoor", "Sai Pallavi", "Yash", "Sunny Deol", "Lara Dutta"],
+    providers: [
+      { name: "Amazon Prime Video", type: "Subscription", badge: "Streaming Rights Partner", price: "Post-Theatrical", url: "https://www.amazon.com/gp/video/storefront", isAffiliate: true },
+      { name: "JioCinema", type: "Subscription", badge: "Official OTT Partner", price: "Included with Sub", url: "https://www.jiocinema.com", isAffiliate: true }
+    ],
+    trending: true,
+    featured: true
+  },
   {
     id: "the-mentalist",
     title: "The Mentalist",
@@ -425,7 +447,7 @@ async function searchWorldwideMoviesAndShows(query) {
         const show = item.show;
         if (!show) return;
         const posterImg = show.image?.original || show.image?.medium || 'https://images.unsplash.com/photo-1509281373149-e957c6296406?auto=format&fit=crop&w=600&q=80';
-        
+
         // Strip HTML from summary
         const div = document.createElement('div');
         div.innerHTML = show.summary || 'Click to view official streaming and rental platforms.';
@@ -549,7 +571,7 @@ function setupEventListeners() {
     searchInput.addEventListener('input', (e) => {
       currentFilter.query = e.target.value.trim();
       if (clearSearchBtn) clearSearchBtn.classList.toggle('hidden', !currentFilter.query);
-      
+
       clearTimeout(searchDebounceTimer);
       searchDebounceTimer = setTimeout(() => {
         applyFilters();
@@ -654,9 +676,9 @@ async function applyFilters() {
     // Query text match
     if (query) {
       const matchText = m.title.toLowerCase().includes(query) ||
-                        m.genres.some(g => g.toLowerCase().includes(query)) ||
-                        m.cast.some(c => c.toLowerCase().includes(query)) ||
-                        (m.director && m.director.toLowerCase().includes(query));
+        m.genres.some(g => g.toLowerCase().includes(query)) ||
+        m.cast.some(c => c.toLowerCase().includes(query)) ||
+        (m.director && m.director.toLowerCase().includes(query));
       return matchText;
     }
 
@@ -827,7 +849,7 @@ function openMovie(movieId) {
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
               allowfullscreen></iframe>
     `;
-  } 
+  }
   // 2. Fetch official trailer from TMDB if it's a TMDB item
   else if (movie.id && movie.id.startsWith('tmdb-')) {
     const tmdbId = movie.id.replace('tmdb-', '');
@@ -852,9 +874,9 @@ function openMovie(movieId) {
             }
           }
         })
-        .catch(() => {});
+        .catch(() => { });
     }
-  } 
+  }
   // 3. Fallback: Cinematic backdrop with direct verified trailer button
   else {
     renderBackdropWithBtn(movie.backdrop || movie.poster);
