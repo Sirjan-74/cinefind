@@ -399,7 +399,7 @@ async function searchWorldwideMoviesAndShows(query) {
   // Helper: check if a title is relevant to the search query
   function isRelevant(title) {
     const t = title.toLowerCase();
-    // At least one query word must appear in the title
+    if (queryWords.length === 0) return t.includes(cleanQ);
     return queryWords.some(word => t.includes(word));
   }
 
